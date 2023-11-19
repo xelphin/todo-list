@@ -1,0 +1,13 @@
+@import '../general';
+@import '../layout';
+
+#title-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 40px;
+    
+    h1 {
+        font-size: $large-font-size;
+    }
+}
