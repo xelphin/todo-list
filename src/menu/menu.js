@@ -12,6 +12,13 @@ const Menu = (function () {
     }
 
     let currTab = tabs["All"];
+
+    const newProjectFormPopUp = () => {
+        // lol, is it okay if I have circular imports? Max put this function in Menu_DOM
+        console.log("Opening form to enter new project");
+        Menu_DOM.openForm();
+
+    }
     
     const setCurrTab = (tabName) => {
         if (tabs.hasOwnProperty(tabName)) {
@@ -69,7 +76,7 @@ const Menu = (function () {
         return currTab;
     }
 
-    return {setCurrTab, checkTabExists, createAndAddProjectTabToMenu, getCurrTabObj}
+    return {newProjectFormPopUp, setCurrTab, checkTabExists, createAndAddProjectTabToMenu, getCurrTabObj}
 
 })();
 
