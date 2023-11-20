@@ -24,4 +24,28 @@
         justify-content: start;
         gap: 10px;
     }
+
+    #add-item-container {
+        display: inline-block;
+        width: 47px;
+        height: 47px;
+        font-size: $large-font-size2;
+        border: 1px solid $color2-type2;
+        border-radius: 50%;
+        text-align: center;
+        align-content: center;
+        margin-top: 50px;
+        transition: 0.1s ease-out transform, 0.1s ease-out color, 0.1s ease-out background-color, 0.1s ease-out border;
+    }
+    #add-item-container:hover {
+        transform: scale(1.1);
+        color: $color2-type1;
+        border: 1.4px solid $color2-type1;
+    }
+    #add-item-container:active {
+        transform: scale(0.98);
+        color: $color2-type3;
+        background-color: $color2-type1;
+        border: 1.4px solid $color2-type3;
+    }
 }

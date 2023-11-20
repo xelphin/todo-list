@@ -7,8 +7,8 @@ import Item from './item/item.js';
 const MainWindow = (function () {
 
     
-    const AddItem = (title, date, description, checked) => {
-        // TODO (amongs other things)
+    const AddItem = (title, date, description, project, checked) => {
+        // TODO (amongst other things)
     }
 
     return { AddItem };

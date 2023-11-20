@@ -7,6 +7,7 @@
 </head>
 <body>
 
+    <!-- TITLE -->
     <div id="title-container">
         <div></div>
         <h1>Check It</h1>
@@ -18,6 +19,7 @@
         </div>
     </div>
 
+    <!-- MENU -->
     <div id="menu">
         <h2>Main</h2>
         <div id="main-container" class="tab-container">
@@ -30,6 +32,7 @@
         </div>
     </div>
 
+    <!-- MAIN-WINDOW -->
     <div id="main-window">
         <div id="tab-title">
             <h2>Demo Title of Tab</h2>
@@ -50,7 +53,27 @@
                 </div>
             </div>
         </div>
+        <div id="add-item-container">+</div>
     </div>
+
+    <!-- FORM (copied from one of my previous repos)-->
+    <dialog id="form-dialog">
+        <p>Add a New TODO</p>
+        <form id = "form" method="dialog">
+            <label for="form-title">Title:</label>
+            <input type="text" name="title" id="form-title" placeholder="title" required>
+            <br>
+            <label for="form-description">Description:</label>
+            <input type="text" name="description" id="form-description" placeholder="description" required>
+            <br>
+            <!-- TODO: Also Date -->
+            <p>Did you do it?</p>
+            <input type="checkbox" id="form-did" name="did" />
+            <br>
+            <button id="form-cancel-btn">Cancel</button>
+            <button id="form-submit-btn" type="submit">OK</button>
+        </form>
+    </dialog>
     
     <script src="main.js"></script>
 </body>
