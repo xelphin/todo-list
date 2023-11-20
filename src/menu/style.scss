@@ -1,2 +1,42 @@
 @import '../general';
 @import '../layout';
+
+#menu {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 25px;
+    background-color: $color1-type2;
+    
+    h2 {
+        font-size: $med-font-size;
+        border-bottom: 2.5px solid $color1-type1;
+        padding-bottom: 10px;
+    }
+
+    .tab-container {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        padding: 0 20px;
+        font-size: $med2-font-size;
+        color: $color2-type2;
+    }
+
+    .menu-tab {
+        width: 100%;
+        padding: 20px 10px;
+        border-radius: 5%;
+        transition: 0.1s ease-out transform;
+    }
+    .menu-tab:hover {
+        background-color: $color1-type1;
+        box-shadow: 3px 3px 3px $color1-type3;
+        transform: scale(0.98);
+    }
+    .menu-tab:active {
+        transform: scale(0.93);
+    }
+
+}

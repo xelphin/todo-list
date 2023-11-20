@@ -6,6 +6,8 @@
     flex-direction: row;
     justify-content: space-between;
     padding: 5px 40px;
+    border-bottom: 3px solid $color1-type2;
+    align-items: center;
     
     h1 {
         font-size: $large-font-size;

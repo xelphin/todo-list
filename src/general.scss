@@ -7,31 +7,35 @@
 }
 
 /* Colors */
-$background-color: #ADD795;
-$background-color2: #529172;
-$highlights: #F0FDDD;
-$dark: #15363B;
+$color1-type1: #2b2c2a;
+$color1-type2: #1b1c1b;
+$color1-type3: #141514;
+$color2-type1:rgb(208, 244, 195);
+$color2-type2: rgb(119, 200, 94);
+$color2-type3: rgb(87, 138, 72);
+
 /* Font */
 $main-font: 'Roboto', sans-serif;
 $large-font-size: 3.5rem;
-$med-font-size: 2rem;
-$norm-font-size: 1rem;
+$med-font-size: 2.2rem;
+$med2-font-size: 1.5rem;
 $small-font-size: 0.8rem;
 
 ::selection {
     /* text highlight costumization */
-    background-color: $highlights; 
-    color: $background-color2; 
+    background-color: $color1-type3; 
+    color: $color2-type2;
 }
 
 ::backdrop {
-    background-color: $highlights;
+    background-color: $color2-type1;
     opacity: 0.75;
 }
 
 body {
 	font-family: $main-font;
-    background-color: $background-color;
+    background-color: $color1-type1;
+	color: $color2-type2;
 }
 
 #content {

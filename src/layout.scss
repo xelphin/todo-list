@@ -4,7 +4,7 @@ body {
   height: 100vh;
   width: 100vw;
   display: grid;
-  grid-template: 1fr 5fr/ 1fr 3fr; 
+  grid-template: 1fr 6fr/ 1fr 3fr; 
   grid-template-areas:
     "title          title"
     "menu     main-window"
@@ -20,10 +20,12 @@ body {
   grid-area: menu;
   width: 100%;
   height:100%;
+  padding: 20px;
 }
 
-#main {
+#main-window {
   grid-area: main-window;
   width: 100%;
   height:100%;
+  padding: 20px;
 }

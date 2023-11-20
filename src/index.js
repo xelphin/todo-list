@@ -3,6 +3,7 @@
 import './general.scss';
 import './layout.scss';
 import './title/style.scss';
+import './menu/style.scss';
 
 // JS Imports
 import ToggleTheme from './toggle-theme/toggle-theme.js';
