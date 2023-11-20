@@ -7,13 +7,13 @@ import './menu/style.scss';
 
 // JS Imports
 import MainWindow from './main-window/main-window.js';
+import Menu from './menu/menu.js';
 import ToggleTheme from './toggle-theme/toggle-theme.js';
 
 // Main
 
 const init = () => {
-    // initMenu();
-    // initMainWindow();
+    Menu.createAndAddProjectTabToMenu("Demo Project");
 }
 
 init();
