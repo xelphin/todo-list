@@ -6,10 +6,8 @@ import './title/style.scss';
 import './menu/style.scss';
 
 // JS Imports
+import MainWindow from './main-window/main-window.js';
 import ToggleTheme from './toggle-theme/toggle-theme.js';
-
-// Global Objects
-let Toggle = new ToggleTheme();
 
 // Main
 

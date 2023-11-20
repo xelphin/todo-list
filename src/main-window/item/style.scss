@@ -1,0 +1,36 @@
+@import '../../general';
+@import '../../layout';
+
+.item-container {
+    display: grid;
+    grid-template: 1fr / 1fr 8fr 1fr; 
+    grid-template-areas:
+      "checkbox title date";
+    padding: 10px 0;
+    border-radius: 3%;
+    transition: 0.1s ease-out transform, 0.1s ease-out box-shadow;
+
+    .item-checkbox {
+        grid-area: checkbox;
+        border: solid 2px white;
+        border-radius: 50%;
+    }
+    .item-title {
+        grid-area: title;
+    }
+    .item-date-container {
+        grid-area: date;
+    }
+}
+
+.item-container:hover {
+    background-color: $color1-type1-2;
+    box-shadow: 5px 5px 12px $color1-type2;
+    transform: scale(1.01);
+}
+
+.item-container:active {
+    background-color: $color1-type1-2;
+    box-shadow: 4px 4px 8px $color1-type2;
+    transform: scale(0.99);
+}

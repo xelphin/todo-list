@@ -27,16 +27,16 @@
     .menu-tab {
         width: 100%;
         padding: 20px 10px;
-        border-radius: 5%;
-        transition: 0.1s ease-out transform;
+        border-radius: 3%;
+        transition: 0.1s ease-out transform, 0.1s ease-out box-shadow;
     }
     .menu-tab:hover {
-        background-color: $color1-type1;
+        background-color: $color1-type2-2;
         box-shadow: 3px 3px 3px $color1-type3;
         transform: scale(0.98);
     }
     .menu-tab:active {
-        transform: scale(0.93);
+        transform: scale(0.94);
     }
 
 }

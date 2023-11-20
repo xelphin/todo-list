@@ -1,2 +1,27 @@
 @import '../general';
 @import '../layout';
+
+#main-window {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+
+    #tab-title {
+        background-color: $color2-type3;
+        color: $color2-type1;
+        padding: 20px;
+        border-radius: 2%;
+        margin-bottom: 30px;
+
+        h2 {
+            font-size: $large-font-size2;
+        }
+    }
+
+    #all-items-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        gap: 10px;
+    }
+}
