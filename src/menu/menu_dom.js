@@ -9,8 +9,13 @@ const Menu_DOM = (function () {
     const mainContainer = document.querySelector("#main-tab-container");
     const projectsContainer = document.querySelector("#projects-tab-container");
     const addBtn = document.querySelector("#add-tab-container");
+    const tabTitle = document.querySelector("#tab-title");
 
     addBtn.addEventListener("click", () => Menu.newProjectFormPopUp() );
+
+    const changeTabTitle = (newTitle) => {
+        tabTitle.textContent = newTitle;
+    }
 
     const openForm = () => {
         ProjectForm.openForm();
@@ -24,7 +29,7 @@ const Menu_DOM = (function () {
         projectsContainer.appendChild(tabNode);
     }
 
-    return {openForm, addTabToMain, addTabToProjects}
+    return {changeTabTitle, openForm, addTabToMain, addTabToProjects}
 
 
 })();

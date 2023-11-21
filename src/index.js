@@ -13,7 +13,22 @@ import ToggleTheme from './toggle-theme/toggle-theme.js';
 // Main
 
 const init = () => {
+    Menu.INIT_ME();
     Menu.createAndAddProjectTabToMenu("Demo Project");
 }
 
+// TODO:
+// Add through Tab/Tab_DOM an event listener (to the tab) that changes the currTab of Menu
+
 init();
+
+
+// GENERAL REDIRECTOR
+
+const GeneralRedirector = (function () {
+
+    return {}
+
+})();
+
+
