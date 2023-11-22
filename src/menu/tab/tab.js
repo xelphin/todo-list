@@ -55,4 +55,8 @@ export default class Tab {
         return true;
     }
 
+    itemExistsInTab = (itemId) => {
+        return (itemId in this._myItems_obj);
+    }
+
 }

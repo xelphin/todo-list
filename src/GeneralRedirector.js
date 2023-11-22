@@ -12,13 +12,7 @@ const GeneralRedirector = (function () {
     }
 
     const callForProjectToSaveItem = (itemObj) => {
-        let currTab = Menu.getCurrTabObj();
-        if (!currTab.isAProject()) {
-            return false;
-        }
-        // Current tab should save item
-        return Menu.getCurrTabObj().addItem(itemObj);
-        // TODO: maybe the logic should be in main-window and not here (selecting the currTab and such)
+        return Menu.projectToSaveItem(itemObj);
     }
 
     const callToToggleDisplayOfProjects = (projectHideNode, projectShowNode) => {

@@ -123,6 +123,19 @@ const Menu = (function () {
         updateAddItemBtnDisplay();
     }
 
+    const projectToSaveItem = (itemObj) => {
+        if (!currTab.isAProject()) {
+            console.log("Error: Can't add item when a project is not selected.");
+            return undefined;
+        }
+        if (currTab.itemExistsInTab(itemObj.getItemId())) {
+            console.log("Error: Item has already been added.");
+            return undefined;
+        }
+        currTab.addItem(itemObj);
+        return itemObj;
+    }
+
     const INIT_ME = () => {
         for (let tabName in tabs) {
             // Adding the tabs from Main ("All", "Today", ..) into DOM
@@ -136,7 +149,7 @@ const Menu = (function () {
     }
 
     return {INIT_ME, newProjectFormPopUp, setCurrTab, checkTabExists,
-            createAndAddProjectTabToMenu, getCurrTabObj, clickedTab}
+            createAndAddProjectTabToMenu, getCurrTabObj, clickedTab, projectToSaveItem}
 
 })();
 
