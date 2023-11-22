@@ -3,7 +3,7 @@ import '../layout.scss';
 import './style.scss';
 import Tab from './tab/tab.js';
 import Menu_DOM from './menu_dom.js';
-import GeneralRedirector from '../index.js'
+import GeneralRedirector from '../GeneralRedirector.js'
 
 const Menu = (function () {
 
@@ -64,11 +64,17 @@ const Menu = (function () {
         return true;
     }
 
+    const addProjectToMainWindow = (projectName) => {
+        let domProjectContainer = GeneralRedirector.callToCreateProjectContainerInMainWindow(projectName);
+        tabs[projectName].setProjectContainerInMainWindow(domProjectContainer);
+    }
+
     const createAndAddProjectTabToMenu = (projectTabName) => {
         if (!createProjectTab(projectTabName) || !addTabToMenu(projectTabName)) {
             console.log("Aborting: creation and addition of new project tab");
             return false;
         }
+        addProjectToMainWindow(projectTabName);
         setCurrTab(projectTabName);
     }
 

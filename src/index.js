@@ -9,12 +9,15 @@ import './menu/style.scss';
 import MainWindow from './main-window/main-window.js';
 import Menu from './menu/menu.js';
 import ToggleTheme from './toggle-theme/toggle-theme.js';
+import GeneralRedirector from './GeneralRedirector.js';
 
 // Main
 
 const init = () => {
     Menu.INIT_ME();
-    Menu.createAndAddProjectTabToMenu("Demo Project");
+    // Demo
+    Menu.createAndAddProjectTabToMenu("Demo Project1");
+    Menu.createAndAddProjectTabToMenu("Demo Project2");
 }
 
 // TODO:
@@ -22,13 +25,5 @@ const init = () => {
 
 init();
 
-
-// GENERAL REDIRECTOR
-
-const GeneralRedirector = (function () {
-
-    return {}
-
-})();
 
 

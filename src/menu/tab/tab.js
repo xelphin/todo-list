@@ -10,6 +10,7 @@ export default class Tab {
         this._tabNode = Tab_DOM.createTab(tabName);
         this._deletable = deletable;
         this._addedToMenu = alreadyInMenu;
+        this._projectContainerNodeInMainWindow = undefined;
     } 
 
     getName = () => {
@@ -32,6 +33,10 @@ export default class Tab {
         if (this._addedToMenu) return false;
         this._addedToMenu = true;
         return true;
+    }
+
+    setProjectContainerInMainWindow = (projectContainerNode) => {
+        this._projectContainerNodeInMainWindow = projectContainerNode;
     }
 
 }

@@ -8,6 +8,8 @@ export default class Item {
         this._description = description;
         this._project = project;
         this._checked = checked;
+        this._itemNode = Item_DOM.createItemNode(title, date, project, checked);
+        // this._itemExpandedNode = Item_DOM.createItemExpandedNode(title, date, description, project, checked);
     }
 
     get getTitle() {
