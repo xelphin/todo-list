@@ -9,6 +9,7 @@ const MainWindow_DOM = (function () {
 
 
     const allItemsContainer = document.querySelector("#all-items-container");
+    const addBtn = document.querySelector("#add-item-container");
 
     const hideProjectContainerNode = (projectNode) => {
         projectNode.style.display = 'none';
@@ -16,6 +17,14 @@ const MainWindow_DOM = (function () {
 
     const showProjectContainerNode = (projectNode) => {
         projectNode.style.display = 'flex';
+    }
+
+    const hideAddBtn = () => {
+        addBtn.style.display = 'none';
+    }
+
+    const showAddBtn = () => {
+        addBtn.style.display = 'block';
     }
 
     const createProjectContainerInDom = (title) => {
@@ -70,7 +79,8 @@ const MainWindow_DOM = (function () {
     }
 
 
-    return { 
+    return {
+        hideAddBtn, showAddBtn,
         createProjectContainerInDom, addItemToProject,
         hideProject, showProject,
         showAllProjects, hideAllProjects

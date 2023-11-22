@@ -33,9 +33,18 @@ const GeneralRedirector = (function () {
         MainWindow.displayOnlyProject(projectNode);
     }
 
+    const callToHideAddBtn = () => {
+        MainWindow.hideAddBtn();
+    }
+
+    const callToShowAddBtn = () => {
+        MainWindow.showAddBtn();
+    }
+
     return {
         callToCreateProjectContainerInMainWindow, callToGetCurrTab, callForProjectToSaveItem,
-        callToToggleDisplayOfProjects, callToDisplayAllProjects, callToDisplayOnlyProject
+        callToToggleDisplayOfProjects, callToDisplayAllProjects, callToDisplayOnlyProject,
+        callToHideAddBtn, callToShowAddBtn
     }
 
 })();

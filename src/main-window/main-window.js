@@ -53,9 +53,17 @@ const MainWindow = (function () {
     const displayOnlyProject = (projectContainerNode) => {
         MainWindow_DOM.hideAllProjects();
         MainWindow_DOM.showProject(projectContainerNode);
-    } 
+    }
+    
+    const hideAddBtn = () => {
+        MainWindow_DOM.hideAddBtn();
+    }
 
-    return { createProjectContainer, AddItem, toggleDisplayOfProjects, displayAllProjects, displayOnlyProject};
+    const showAddBtn = () => {
+        MainWindow_DOM.showAddBtn();
+    }
+
+    return { createProjectContainer, AddItem, toggleDisplayOfProjects, displayAllProjects, displayOnlyProject, hideAddBtn, showAddBtn};
 
 })();
 

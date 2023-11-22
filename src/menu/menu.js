@@ -104,14 +104,23 @@ const Menu = (function () {
         }
     }
 
+    const updateAddItemBtnDisplay = () => {
+        if (currTab.isAProject()) {
+            GeneralRedirector.callToShowAddBtn();
+        } else {
+            GeneralRedirector.callToHideAddBtn();
+        }
+    }
+
     const clickedTab = (tabNode) => {
         // From DOM Event Listener
         let tabName = tabNode.getAttribute("data-tab")
         console.log("Switching to tab: ", tabName);
         setCurrTab(tabName);
         Menu_DOM.changeTabTitle(tabName);
-        // What Items To Show Logic
+        // Update Appearance
         updateItemsToShow();
+        updateAddItemBtnDisplay();
     }
 
     const INIT_ME = () => {
