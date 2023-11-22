@@ -7,7 +7,36 @@ const GeneralRedirector = (function () {
         return MainWindow.createProjectContainer(projectName);
     }
 
-    return {callToCreateProjectContainerInMainWindow}
+    const callToGetCurrTab = () => {
+        return Menu.getCurrTabObj();
+    }
+
+    const callForProjectToSaveItem = (itemObj) => {
+        let currTab = Menu.getCurrTabObj();
+        if (!currTab.isAProject()) {
+            return false;
+        }
+        // Current tab should save item
+        return Menu.getCurrTabObj().addItem(itemObj);
+        // TODO: maybe the logic should be in main-window and not here (selecting the currTab and such)
+    }
+
+    const callToToggleDisplayOfProjects = (projectHideNode, projectShowNode) => {
+        MainWindow.toggleDisplayOfProjects(projectHideNode, projectShowNode);
+    }
+
+    const callToDisplayAllProjects = () => {
+        MainWindow.displayAllProjects();
+    }
+
+    const callToDisplayOnlyProject = (projectNode) => {
+        MainWindow.displayOnlyProject(projectNode);
+    }
+
+    return {
+        callToCreateProjectContainerInMainWindow, callToGetCurrTab, callForProjectToSaveItem,
+        callToToggleDisplayOfProjects, callToDisplayAllProjects, callToDisplayOnlyProject
+    }
 
 })();
 

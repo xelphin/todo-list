@@ -1,18 +1,17 @@
 import './style.scss';
+import Item_DOM from './item_dom.js'
 
 export default class Item {
   
-    constructor(title, date, description, project, checked) {
+    constructor(uid, title, date, checked) {
+        this._uid = uid;
         this._title = title;
         this._date = date;
-        this._description = description;
-        this._project = project;
         this._checked = checked;
-        this._itemNode = Item_DOM.createItemNode(title, date, project, checked);
-        // this._itemExpandedNode = Item_DOM.createItemExpandedNode(title, date, description, project, checked);
+        this._itemNode = Item_DOM.createItemNode(uid, title, date, checked);
     }
 
-    get getTitle() {
+    get title() {
         return this._title;
     }
     
@@ -20,12 +19,11 @@ export default class Item {
         this._title = newTitle;
     }
 
-    // ...
-  
-    createDomItem = () => {
-        // dom: makes dom item
+    getItemNode() {
+        return this._itemNode;
     }
 
-    // ...
-
+    getItemId() {
+        return this._uid;
+    }
 }

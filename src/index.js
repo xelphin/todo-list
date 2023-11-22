@@ -15,9 +15,16 @@ import GeneralRedirector from './GeneralRedirector.js';
 
 const init = () => {
     Menu.INIT_ME();
-    // Demo
+    // Demo 
+    // TODO:(erase later)
     Menu.createAndAddProjectTabToMenu("Demo Project1");
     Menu.createAndAddProjectTabToMenu("Demo Project2");
+    let tabNode1 = document.querySelector('[data-tab="Demo Project1"]');
+    let tabNode2 = document.querySelector('[data-tab="Demo Project2"]');
+    Menu.clickedTab(tabNode1);
+    MainWindow.AddItem("demo item 1", "11/11/2024", true);
+    Menu.clickedTab(tabNode2);
+    MainWindow.AddItem("demo item 2", "22/12/2024", true);
 }
 
 // TODO:

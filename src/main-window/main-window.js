@@ -4,22 +4,58 @@ import './style.scss';
 import './item/style.scss';
 import Item from './item/item.js';
 import MainWindow_DOM from './main-window_dom.js';
+import GeneralRedirector from '../GeneralRedirector.js'
+import uniqid from 'uniqid';
 
 const MainWindow = (function () {
 
-    // maybe have each set of items belong to a <div id="project1-allItemsContainer"></div> and that will be the quickest <- Seems best [1]
-
     const createProjectContainer = (title) => {
-        // TODO: Asks MainWindow_DOM to create a container <div id="[title]-allItemsContainer"></div> in MainWindow
         console.log("Will create projectContainer in main window for: ", title);
         return MainWindow_DOM.createProjectContainerInDom(title);
     }
+
+    const createUID = () => {
+        // Can change this function to get uids in a different way
+        return uniqid();
+    }
     
-    const AddItem = (title, date, description, project, checked) => {
-        // [1] -> TODO: make the createAndAddProjectTabToMenu() call createProjectContainer()
+    const AddItem = (title, date, checked) => {
+        let currTab = GeneralRedirector.callToGetCurrTab();
+        if (!currTab.isAProject()) {
+            console.log("Error: Can't add item when a project is not selected.");
+            return undefined;
+        }
+        // Create Item Object
+        let uid = createUID();
+        let itemObj = new Item(uid, title, date, checked);
+        // Add Item To DOM
+        let projectContainer = currTab.getProjectContainerInMainWindow();
+        MainWindow_DOM.addItemToProject(itemObj.getItemNode(), projectContainer);
+        // Give the itemObj to the Project
+        GeneralRedirector.callForProjectToSaveItem(itemObj);
+
+        return undefined;
     }
 
-    return { createProjectContainer, AddItem };
+    const toggleDisplayOfProjects = (projectContainerHideNode, projectContainerShowNode) => {
+        if (!projectContainerHideNode || !projectContainerShowNode) {
+            console.log("Can't toggle items, you have undefined project containers");
+            return;
+        }
+        MainWindow_DOM.hideProject(projectContainerHideNode);
+        MainWindow_DOM.showProject(projectContainerShowNode);
+    }
+
+    const displayAllProjects = () => {
+        MainWindow_DOM.showAllProjects();
+    }
+
+    const displayOnlyProject = (projectContainerNode) => {
+        MainWindow_DOM.hideAllProjects();
+        MainWindow_DOM.showProject(projectContainerNode);
+    } 
+
+    return { createProjectContainer, AddItem, toggleDisplayOfProjects, displayAllProjects, displayOnlyProject};
 
 })();
 

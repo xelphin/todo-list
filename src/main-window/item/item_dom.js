@@ -1,9 +1,16 @@
 import '../../general.scss';
 import '../../layout.scss';
 import './style.scss';
-import MainWindow from '../main-window.js'
 
 const Item_DOM = (function () {
+
+    const hideItem = (itemNode) => {
+        itemNode.style.display = 'none';
+    }
+
+    const showItem = (itemNode) => {
+        itemNode.style.display = 'grid';
+    }
 
     const createItemCheckBoxNode = (checked) => {
         // <input name="item-checkbox" type="checkbox" class="item-checkbox">
@@ -38,8 +45,8 @@ const Item_DOM = (function () {
         return dateNode;
     }
 
-    const createItemNode = (title, date, project, checked) => {
-        // <div class="item-container" data-project="demo project">
+    const createItemNode = (uid, title, date, checked) => {
+        // <div id="item-1234567890" class="item-container">
         //     <input name="item-checkbox" type="checkbox" class="item-checkbox">
         //     <h3 class="item-title">demo item title</h3>
         //     <div class="item-date-container">
@@ -49,8 +56,9 @@ const Item_DOM = (function () {
         console.log("Creating item: ", title);
         // Item container
         let itemNode = document.createElement('div');
+        itemNode.setAttribute('id', "item-"+uid);
         itemNode.setAttribute('class', "item-container");
-        itemNode.setAttribute('data-project', project);
+        showItem(itemNode);
         // TODO: Add event listener
         // Inner elements
         let checkBoxNode = createItemCheckBoxNode(checked);
@@ -63,7 +71,7 @@ const Item_DOM = (function () {
         return itemNode;
     }
 
-    return { createItemNode };
+    return { createItemNode, hideItem, showItem };
 
 })();
 

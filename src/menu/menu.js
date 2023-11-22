@@ -11,7 +11,7 @@ const Menu = (function () {
         "All": new Tab("All", false, false),
         "Today": new Tab("Today", false, false)
     }
-
+    let prevTab = tabs["All"];
     let currTab = tabs["All"];
 
     const newProjectFormPopUp = () => {
@@ -22,6 +22,7 @@ const Menu = (function () {
     
     const setCurrTab = (tabName) => {
         if (tabs.hasOwnProperty(tabName)) {
+            prevTab = currTab;
             currTab = tabs[tabName];
         }
     }
@@ -82,12 +83,35 @@ const Menu = (function () {
         return currTab;
     }
 
+    const updateItemsToShow = () => {
+        // Updates depending on current tab
+        if (currTab.isAProject()) {
+            let projectContainerNode = currTab.getProjectContainerInMainWindow()
+            if (prevTab.isAProject()) {
+                GeneralRedirector.callToToggleDisplayOfProjects(prevTab.getProjectContainerInMainWindow(), projectContainerNode );
+            } else {
+                GeneralRedirector.callToDisplayOnlyProject(projectContainerNode)
+            }
+        } else {
+            // TODO: Also do for case 'Today'
+            switch (currTab.getName()) {
+                case 'All':
+                    GeneralRedirector.callToDisplayAllProjects();
+                    break;
+                default:
+                    GeneralRedirector.callToDisplayAllProjects();
+            }
+        }
+    }
+
     const clickedTab = (tabNode) => {
         // From DOM Event Listener
         let tabName = tabNode.getAttribute("data-tab")
         console.log("Switching to tab: ", tabName);
         setCurrTab(tabName);
         Menu_DOM.changeTabTitle(tabName);
+        // What Items To Show Logic
+        updateItemsToShow();
     }
 
     const INIT_ME = () => {
@@ -98,6 +122,8 @@ const Menu = (function () {
                 return false;
             }
         }
+        setCurrTab('All'); /////////
+        GeneralRedirector.callToDisplayAllProjects(); /////////
     }
 
     return {INIT_ME, newProjectFormPopUp, setCurrTab, checkTabExists,
