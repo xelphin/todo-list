@@ -5,6 +5,7 @@ import './item/style.scss';
 import Item from './item/item.js';
 import MainWindow_DOM from './main-window_dom.js';
 import GeneralRedirector from '../GeneralRedirector.js'
+import Form from './form/form.js'
 import uniqid from 'uniqid';
 
 const MainWindow = (function () {
@@ -63,7 +64,39 @@ const MainWindow = (function () {
         MainWindow_DOM.showAddBtn();
     }
 
-    return { createProjectContainer, AddItem, toggleDisplayOfProjects, displayAllProjects, displayOnlyProject, hideAddBtn, showAddBtn};
+    const newItemFormPopUp = () => {
+        console.log("Opening form to enter new item");
+        MainWindow_DOM.openForm();
+    }
+
+    const makeDateStringInputFormat = (day, month, year) => {
+        return `${year}-${month}-${day}`;
+    }
+
+    const makeDateStringReadFormat = (day, month, year) => {
+        return `${day}/${month}/${year}`;
+    }
+
+    const convertDateFromReadToInputFormat = (readFormatStr) => {
+        let values = readFormatStr.split("/");
+        return makeDateStringInputFormat(values[0], values[1], values[2]);
+    }
+
+    const convertDateFromInputToReadFormat = (readFormatStr) => {
+        let values = readFormatStr.split("-");
+        return makeDateStringReadFormat(values[2], values[1], values[0]);
+    }
+
+    const INIT_ME = () => {
+        Form.setDefaultDates();
+    }
+
+    return { 
+        createProjectContainer, AddItem, toggleDisplayOfProjects,
+        displayAllProjects, displayOnlyProject, hideAddBtn, showAddBtn, newItemFormPopUp,
+        makeDateStringInputFormat, makeDateStringReadFormat, convertDateFromReadToInputFormat, convertDateFromInputToReadFormat,
+        INIT_ME
+    };
 
 })();
 

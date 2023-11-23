@@ -18,13 +18,14 @@
         }
     }
 
-    #all-items-container {
+    #all-items-container, .project-items-container {
         display: flex;
         flex-direction: column;
         justify-content: start;
         gap: 10px;
     }
 
+    /* Add Button */
     #add-item-container {
         display: inline-block;
         width: 47px;

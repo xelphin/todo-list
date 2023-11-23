@@ -4,12 +4,16 @@ import './style.scss';
 import './item/style.scss';
 import Item from './item/item.js';
 import Item_DOM from './item/item_dom.js';
+import MainWindow from './main-window.js';
+import Form from './form/form.js'
 
 const MainWindow_DOM = (function () {
 
 
     const allItemsContainer = document.querySelector("#all-items-container");
     const addBtn = document.querySelector("#add-item-container");
+
+    addBtn.addEventListener("click", () => MainWindow.newItemFormPopUp() );
 
     const hideProjectContainerNode = (projectNode) => {
         projectNode.style.display = 'none';
@@ -27,11 +31,16 @@ const MainWindow_DOM = (function () {
         addBtn.style.display = 'block';
     }
 
+    const openForm = () => {
+        Form.openForm();
+    }
+
     const createProjectContainerInDom = (title) => {
-        // Create: <div id="project1-items-container"></div>
+        // Create: <div id="project1-items-container" style="display:flex" class="project-items-container"></div>
         let projectDiv = document.createElement('div');
         projectDiv.setAttribute('id', title+"-items-container");
-        showProjectContainerNode(projectDiv); ////////////////////////
+        projectDiv.setAttribute('class', "project-items-container");
+        showProjectContainerNode(projectDiv); 
         allItemsContainer.appendChild(projectDiv);
         return projectDiv;
     }
@@ -80,7 +89,7 @@ const MainWindow_DOM = (function () {
 
 
     return {
-        hideAddBtn, showAddBtn,
+        hideAddBtn, showAddBtn, openForm,
         createProjectContainerInDom, addItemToProject,
         hideProject, showProject,
         showAllProjects, hideAllProjects

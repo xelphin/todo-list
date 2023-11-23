@@ -11,14 +11,6 @@ export default class Item {
         this._itemNode = Item_DOM.createItemNode(uid, title, date, checked);
     }
 
-    get title() {
-        return this._title;
-    }
-    
-    set setTitle(newTitle) {
-        this._title = newTitle;
-    }
-
     getItemNode() {
         return this._itemNode;
     }

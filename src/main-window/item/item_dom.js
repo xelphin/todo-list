@@ -1,6 +1,7 @@
 import '../../general.scss';
 import '../../layout.scss';
 import './style.scss';
+import MainWindow from '../main-window';
 
 const Item_DOM = (function () {
 
@@ -18,7 +19,7 @@ const Item_DOM = (function () {
         checkBoxNode.setAttribute('name', "item-checkbox");
         checkBoxNode.setAttribute('type', "checkbox");
         checkBoxNode.setAttribute('class', "item-checkbox");
-        // TODO: Add 'checked' too (if relevant)
+        checkBoxNode.checked = checked;
         return checkBoxNode;
     }
 
@@ -39,7 +40,7 @@ const Item_DOM = (function () {
         dateNode.setAttribute('class', "item-date-container");
         // Text
         let dateTextNode = document.createElement('h4');
-        dateTextNode.textContent = date;
+        dateTextNode.textContent = MainWindow.convertDateFromInputToReadFormat(date);
         // Append and send
         dateNode.appendChild(dateTextNode);
         return dateNode;
