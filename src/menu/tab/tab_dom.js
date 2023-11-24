@@ -11,12 +11,13 @@ const Tab_DOM = (function () {
         tabNode.addEventListener('click', (event) => Menu.clickedTab(event.target));
     }
 
-    const createTab = (name) => {
-        // <div class="menu-tab">name</div>
+    const createTab = (id, name) => {
+        // <div class="menu-tab" data-tab"<id>">name</div>
         console.log("Creating tab: ", name);
         let tabNode = document.createElement('div');
         tabNode.setAttribute('class', sharedClass);
         tabNode.setAttribute('data-tab', name);
+        tabNode.setAttribute('id', id); // TODO: make id "tab-"+id instead
         tabNode.textContent = name;
         addEventListenerToTab(tabNode);
         return tabNode;

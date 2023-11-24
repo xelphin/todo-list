@@ -9,56 +9,66 @@ import uniqid from 'uniqid';
 const Menu = (function () {
 
     const createUID = () => {
-        // Can change this function to get uids in a different way
-        return uniqid();
+        // At most 10 Main tabs with this method! becayse the uid of the Main Tabs are currently single digits
+        // and we don't want that there id's might come out again through here
+        return "1"+uniqid(); // 
     }
 
     let tabs = { // TODO: Change this to work with IDs and not Names as keys
-        "All": new Tab(createUID(), "All", false, false),
-        "Today": new Tab(createUID(), "Today", false, false)
+        "0": new Tab("0", "All", false, false),
+        "1": new Tab("1", "Today", false, false)
     }
-    let prevTab = tabs["All"];
-    let currTab = tabs["All"];
+    let prevTab = tabs["0"];
+    let currTab = tabs["0"];
 
     const newProjectFormPopUp = () => {
         console.log("Opening form to enter new project");
         Menu_DOM.openForm();
     }
     
-    const setCurrTab = (tabName) => {
-        if (tabs.hasOwnProperty(tabName)) {
+    const setCurrTab = (tabId) => {
+        if (tabs.hasOwnProperty(tabId)) {
             prevTab = currTab;
-            currTab = tabs[tabName];
+            currTab = tabs[tabId];
         }
     }
 
-    const checkTabExists = (tabName) => {
-        if (tabs.hasOwnProperty(tabName)) {
+    const checkTabExists = (tabId) => {
+        if (tabs.hasOwnProperty(tabId)) {
             return true;
         }
         return false;
     }
 
-    const createProjectTab = (projectTabName) => {
-        if (checkTabExists(projectTabName)) {
-            console.log("Error: tab name already exists");
-            return false;
+    const checkTabNameIsFree = (tabName) => {
+        for (let id in tabs) {
+            if (tabs[id].getName() == tabName) {
+                return false;
+            }
         }
-        if (projectTabName == "") {
-            console.log("Error: name received for project is an empty string");
-            return false;
-        }
-        let uid = createUID();
-        tabs[projectTabName] = new Tab(uid, projectTabName, true, false);
         return true;
     }
 
-    const addTabToMenu = (tabName) => {
-        if (!checkTabExists(tabName)) {
+    const createProjectTab = (projectTabName) => {
+        if (!checkTabNameIsFree(projectTabName)) {
+            console.log("Error: tab name already exists");
+            return undefined;
+        }
+        if (projectTabName == "") {
+            console.log("Error: name received for project is an empty string");
+            return undefined;
+        }
+        let uid = createUID();
+        tabs[uid] = new Tab(uid, projectTabName, true, false);
+        return tabs[uid];
+    }
+
+    const addTabToMenu = (tabId) => {
+        if (!checkTabExists(tabId)) {
             console.log("Error: Need to first create the tab");
             return false;
         }
-        let tabObj = tabs[tabName];
+        let tabObj = tabs[tabId];
         if (!tabObj.setAddToMenu()) {
             console.log("Already exists in menu");
             return false;
@@ -66,18 +76,23 @@ const Menu = (function () {
         if (tabObj.isAProject()) {
             Menu_DOM.addTabToProjects(tabObj.getNode());
         } else {
-            console.log("Adding the following tab to Main: ", tabName);
             Menu_DOM.addTabToMain(tabObj.getNode());
         }
         return true;
     }
 
     const createAndAddProjectTabToMenu = (projectTabName) => {
-        if (!createProjectTab(projectTabName) || !addTabToMenu(projectTabName)) {
-            console.log("Aborting: creation and addition of new project tab");
+        let newProjectTab = createProjectTab(projectTabName);
+        if (newProjectTab == undefined) {
+            console.log("Aborting: creation of new project tab");
             return false;
         }
-        switchToTab(projectTabName);
+        if (!addTabToMenu(newProjectTab.getId())) {
+            console.log("Aborting: addition of new project tab");
+            return false;
+        }
+        switchToTab(newProjectTab.getId());
+        return true;
     }
 
     const getCurrTabObj = () => {
@@ -114,10 +129,11 @@ const Menu = (function () {
         }
     }
 
-    const switchToTab = (tabName) => {
-        console.log("Switching to tab: ", tabName);
-        setCurrTab(tabName);
-        Menu_DOM.changeTabTitle(tabName);
+    const switchToTab = (tabId) => {
+        console.log("Switching to tab with id: ", tabId);
+        setCurrTab(tabId);
+        console.log("Now currTab: ", currTab);
+        Menu_DOM.changeTabTitle(currTab.getName());
         // Update Appearance
         updateItemsToShow();
         updateAddItemBtnDisplay();
@@ -125,8 +141,8 @@ const Menu = (function () {
 
     const clickedTab = (tabNode) => {
         // From DOM Event Listener
-        let tabName = tabNode.getAttribute("data-tab")
-        switchToTab(tabName);
+        let tabId = tabNode.getAttribute("id");
+        switchToTab(tabId);
     }
 
     const projectToSaveItem = (itemObj) => {
@@ -143,9 +159,9 @@ const Menu = (function () {
     }
 
     const INIT_ME = () => {
-        for (let tabName in tabs) {
+        for (let tabId in tabs) {
             // Adding the tabs from Main ("All", "Today", ..) into DOM
-            if (!addTabToMenu(tabName)) {
+            if (!addTabToMenu(tabId)) {
                 console.log("Aborting: addition of main tab into dom");
                 return false;
             }

@@ -10,7 +10,7 @@ export default class Tab {
     constructor(uid, tabName, deletable, alreadyInMenu) {
         this._id = uid;
         this._name = tabName;
-        this._tabNode = Tab_DOM.createTab(tabName);
+        this._tabNode = Tab_DOM.createTab(uid, tabName);
         this._deletable = deletable;
         this._addedToMenu = alreadyInMenu;
         this._projectContainerNodeInMainWindow = undefined;
@@ -25,6 +25,10 @@ export default class Tab {
 
     getNode = () => {
         return this._tabNode;
+    }
+
+    getId = () => {
+        return this._id;
     }
     
     isDeletable = () => {
