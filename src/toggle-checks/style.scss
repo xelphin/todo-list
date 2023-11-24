@@ -3,8 +3,8 @@
 
 /*From: https://www.w3schools.com/howto/howto_css_switch.asp*/
 
-#theme-container {
-    .switch-theme {
+#toggle-container {
+    .toggle-label {
         position: relative;
         display: inline-block;
         width: 60px;
@@ -12,7 +12,7 @@
     }
       
     /* Hide default HTML checkbox */
-    .switch input {
+    .toggle-label input {
         opacity: 0;
         width: 0;
         height: 0;

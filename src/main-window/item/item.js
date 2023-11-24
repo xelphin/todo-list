@@ -5,8 +5,8 @@ export default class Item {
   
     constructor(uid, title, date, checked) {
         this._uid = uid;
-        this._title = title;
-        this._date = date;
+        this._initTitle = title;
+        this._initDate = date;
         this._checked = checked;
         this._itemNode = Item_DOM.createItemNode(uid, title, date, checked);
     }
@@ -17,5 +17,13 @@ export default class Item {
 
     getItemId() {
         return this._uid;
+    }
+
+    getChecked() {
+        return Item_DOM.fromNodeGetIfChecked(this._itemNode);
+    }
+
+    static fromNodeGetIfChecked(someItemNode) {
+        return Item_DOM.isItemNodeChecked(someItemNode);
     }
 }

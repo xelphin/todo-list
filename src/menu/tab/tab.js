@@ -57,6 +57,14 @@ export default class Tab {
     }
 
     getAllItems = () => {
+        if (this._id == "0") { 
+            // All
+            // return all items in MainWindow
+        } else if (this._id == "1") { 
+            // Today
+            // return all items in MainWindow whose due date is Today
+        }
+        // else
         return this._myItems_obj;
     }
 

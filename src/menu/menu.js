@@ -9,8 +9,8 @@ import uniqid from 'uniqid';
 const Menu = (function () {
 
     const createUID = () => {
-        // At most 10 Main tabs with this method! becayse the uid of the Main Tabs are currently single digits
-        // and we don't want that there id's might come out again through here
+        // At most 10 Main tabs with this method! because the uid of the Main Tabs are currently single digits
+        // and we don't want that their id's might come out again through here
         return "1"+uniqid(); // 
     }
 
@@ -105,7 +105,7 @@ const Menu = (function () {
             let items = currTab.getAllItems()
             if (prevTab.isAProject()) {
                 let prevItems = prevTab.getAllItems();
-                GeneralRedirector.callToToggleDisplayOfItems(prevItems, items );
+                GeneralRedirector.callToToggleDisplayOfItems(prevItems, items);
             } else {
                 GeneralRedirector.callToDisplayOnlyItems(items);
             }
@@ -170,7 +170,9 @@ const Menu = (function () {
     }
 
     return {INIT_ME, newProjectFormPopUp, setCurrTab, checkTabExists,
-            createAndAddProjectTabToMenu, getCurrTabObj, clickedTab, projectToSaveItem}
+            createAndAddProjectTabToMenu, getCurrTabObj, clickedTab, projectToSaveItem,
+            updateItemsToShow
+        }
 
 })();
 

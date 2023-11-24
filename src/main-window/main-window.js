@@ -11,17 +11,24 @@ import uniqid from 'uniqid';
 const MainWindow = (function () {
 
     let allItems_obj = {}; // For lookups/direct access
-    let allItems_arr = []; // For sorting/filtering/...
+    let showUnchecked = true;
+
+    const toggleShowUnchecked = () => {
+        console.log("MainWindow, toggle 'showUnchecked' -> ", !showUnchecked);
+        showUnchecked = !showUnchecked;
+
+    }
 
     const saveItemObj = (itemObj) => {
         allItems_obj[itemObj.getItemId] = itemObj;
-        allItems_arr.push(itemObj);
     }
 
     const createUID = () => {
         // Can change this function to get uids in a different way
         return uniqid();
     }
+
+    // ADD ITEM
     
     const AddItem = (title, date, checked) => {
         let currTab = GeneralRedirector.callToGetCurrTab();
@@ -42,19 +49,23 @@ const MainWindow = (function () {
         return undefined;
     }
 
+    // ITEMS DISPLAY
+
     const toggleDisplayOfItems = (itemsHide, itemsShow) => {
         MainWindow_DOM.hideItems(itemsHide);
-        MainWindow_DOM.showItems(itemsShow);
+        MainWindow_DOM.showItems(itemsShow, showUnchecked);
     }
 
     const displayAllItems = () => {
-        MainWindow_DOM.showAllItems();
+        MainWindow_DOM.showAllItems(showUnchecked);
     }
 
     const displayOnlyItems = (items) => {
         MainWindow_DOM.hideAllItems();
-        MainWindow_DOM.showItems(items);
+        MainWindow_DOM.showItems(items, showUnchecked);
     }
+
+    // ADD BUTTON
     
     const hideAddBtn = () => {
         MainWindow_DOM.hideAddBtn();
@@ -64,10 +75,14 @@ const MainWindow = (function () {
         MainWindow_DOM.showAddBtn();
     }
 
+    // ITEMS FORM
+
     const newItemFormPopUp = () => {
         console.log("Opening form to enter new item");
         MainWindow_DOM.openForm();
     }
+
+    // DATE FORMATTER
 
     const makeDateStringInputFormat = (day, month, year) => {
         return `${year}-${month}-${day}`;
@@ -87,14 +102,23 @@ const MainWindow = (function () {
         return makeDateStringReadFormat(values[2], values[1], values[0]);
     }
 
+    // LISTENERS
+
+    const updateItemsShownBecauseOfClickingChecked = () => {
+        GeneralRedirector.callToUpdateItemsToShow();
+    }
+
+    // INIT
+
     const INIT_ME = () => {
         Form.setDefaultDates();
     }
 
     return { 
-        AddItem, toggleDisplayOfItems,displayAllItems, displayOnlyItems,
+        AddItem, toggleDisplayOfItems,displayAllItems, displayOnlyItems, toggleShowUnchecked,
         hideAddBtn, showAddBtn, newItemFormPopUp,
         makeDateStringInputFormat, makeDateStringReadFormat, convertDateFromReadToInputFormat, convertDateFromInputToReadFormat,
+        updateItemsShownBecauseOfClickingChecked,
         INIT_ME
     };
 

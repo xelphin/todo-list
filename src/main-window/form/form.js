@@ -3,6 +3,7 @@ import '../../layout.scss';
 import './style.scss';
 import Form_DOM from './form_dom.js';
 import MainWindow from '../main-window.js';
+import GeneralRedirector from '../../GeneralRedirector.js';
 
 const Form = (function () {
 
@@ -12,6 +13,7 @@ const Form = (function () {
 
     const sendData = (title, date, checked) => {
         MainWindow.AddItem(title, date, checked);
+        GeneralRedirector.callToUpdateItemsToShow();
     }
 
     const clickCancel = () => {

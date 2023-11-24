@@ -8,7 +8,7 @@ import './menu/style.scss';
 // JS Imports
 import MainWindow from './main-window/main-window.js';
 import Menu from './menu/menu.js';
-import ToggleTheme from './toggle-theme/toggle-theme.js';
+import ToggleChecks from './toggle-checks/toggle-checks.js';
 import GeneralRedirector from './GeneralRedirector.js';
 
 // Main
@@ -27,9 +27,6 @@ const init = () => {
     Menu.clickedTab(tabNode2);
     MainWindow.AddItem("demo item 2", "2024-12-22", false);
 }
-
-// TODO:
-// Add through Tab/Tab_DOM an event listener (to the tab) that changes the currTab of Menu
 
 init();
 

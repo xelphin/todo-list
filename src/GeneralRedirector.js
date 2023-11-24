@@ -31,10 +31,19 @@ const GeneralRedirector = (function () {
         MainWindow.showAddBtn();
     }
 
+    const callToToggleShowUnchecked = () => {
+        MainWindow.toggleShowUnchecked();
+    }
+
+    const callToUpdateItemsToShow = () => {
+        Menu.updateItemsToShow();
+    }
+
     return {
         callToGetCurrTab, callForProjectToSaveItem,
         callToToggleDisplayOfItems, callToDisplayAllItems, callToDisplayOnlyItems,
-        callToHideAddBtn, callToShowAddBtn
+        callToHideAddBtn, callToShowAddBtn,
+        callToToggleShowUnchecked, callToUpdateItemsToShow
     }
 
 })();

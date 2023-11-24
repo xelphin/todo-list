@@ -33,10 +33,14 @@ const MainWindow_DOM = (function () {
 
     // SHOW/HIDE PROJECT
 
-    const applyToItems = (items, show) => {
+    const applyToItems = (items, show, showUnchecked = true) => {
         for (const key in items) {
             let itemNode = items[key].getItemNode();
-            show ? Item_DOM.showItem(itemNode) : Item_DOM.hideItem(itemNode);
+            if ((show && showUnchecked) || (show && Item.fromNodeGetIfChecked(itemNode))) {
+                Item_DOM.showItem(itemNode);
+            } else {
+                Item_DOM.hideItem(itemNode);
+            }
         }
         return true;
     }
@@ -45,15 +49,19 @@ const MainWindow_DOM = (function () {
         return applyToItems(items, false);
     }
 
-    const showItems = (items) => { 
-        return applyToItems(items, true);
+    const showItems = (items, showUnchecked = true) => {
+        return applyToItems(items, true, showUnchecked);
     }
 
     // SHOW/HIDE ALL
 
-    const showAllItems = () => { 
+    const showAllItems = (showUnchecked = true) => { 
         for (const itemNode of allItemsContainer.children) {
-            Item_DOM.showItem(itemNode);
+            if (showUnchecked || Item.fromNodeGetIfChecked(itemNode)) {
+                Item_DOM.showItem(itemNode);
+            } else {
+                Item_DOM.hideItem(itemNode);
+            }
         }
         console.log("Now showing all items");
     }

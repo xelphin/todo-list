@@ -2,8 +2,18 @@ import '../../general.scss';
 import '../../layout.scss';
 import './style.scss';
 import MainWindow from '../main-window';
+import Item from './item.js';
+import GeneralRedirector from '../../GeneralRedirector.js';
 
 const Item_DOM = (function () {
+
+    const isItemNodeChecked = (itemNode) => {
+        const checkBox = itemNode.querySelector('.item-checkbox');
+        if (checkBox == undefined || checkBox.checked == false) {
+            return false;
+        }
+        return true;
+    }
 
     const hideItem = (itemNode) => {
         itemNode.style.display = 'none';
@@ -20,6 +30,7 @@ const Item_DOM = (function () {
         checkBoxNode.setAttribute('type', "checkbox");
         checkBoxNode.setAttribute('class', "item-checkbox");
         checkBoxNode.checked = checked;
+        checkBoxNode.addEventListener('click', () => MainWindow.updateItemsShownBecauseOfClickingChecked());
         return checkBoxNode;
     }
 
@@ -72,7 +83,7 @@ const Item_DOM = (function () {
         return itemNode;
     }
 
-    return { createItemNode, hideItem, showItem };
+    return { isItemNodeChecked, createItemNode, hideItem, showItem };
 
 })();
 
