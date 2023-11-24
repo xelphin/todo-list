@@ -3,13 +3,19 @@ import '../layout.scss';
 import './style.scss';
 import Tab from './tab/tab.js';
 import Menu_DOM from './menu_dom.js';
-import GeneralRedirector from '../GeneralRedirector.js'
+import GeneralRedirector from '../GeneralRedirector.js';
+import uniqid from 'uniqid';
 
 const Menu = (function () {
 
-    let tabs = {
-        "All": new Tab("All", false, false),
-        "Today": new Tab("Today", false, false)
+    const createUID = () => {
+        // Can change this function to get uids in a different way
+        return uniqid();
+    }
+
+    let tabs = { // TODO: Change this to work with IDs and not Names as keys
+        "All": new Tab(createUID(), "All", false, false),
+        "Today": new Tab(createUID(), "Today", false, false)
     }
     let prevTab = tabs["All"];
     let currTab = tabs["All"];
@@ -42,7 +48,8 @@ const Menu = (function () {
             console.log("Error: name received for project is an empty string");
             return false;
         }
-        tabs[projectTabName] = new Tab(projectTabName, true, false);
+        let uid = createUID();
+        tabs[projectTabName] = new Tab(uid, projectTabName, true, false);
         return true;
     }
 
@@ -59,14 +66,10 @@ const Menu = (function () {
         if (tabObj.isAProject()) {
             Menu_DOM.addTabToProjects(tabObj.getNode());
         } else {
+            console.log("Adding the following tab to Main: ", tabName);
             Menu_DOM.addTabToMain(tabObj.getNode());
         }
         return true;
-    }
-
-    const addProjectToMainWindow = (projectName) => {
-        let domProjectContainer = GeneralRedirector.callToCreateProjectContainerInMainWindow(projectName);
-        tabs[projectName].setProjectContainerInMainWindow(domProjectContainer);
     }
 
     const createAndAddProjectTabToMenu = (projectTabName) => {
@@ -74,8 +77,7 @@ const Menu = (function () {
             console.log("Aborting: creation and addition of new project tab");
             return false;
         }
-        addProjectToMainWindow(projectTabName);
-        setCurrTab(projectTabName);
+        switchToTab(projectTabName);
     }
 
     const getCurrTabObj = () => {
@@ -85,20 +87,21 @@ const Menu = (function () {
     const updateItemsToShow = () => {
         // Updates depending on current tab
         if (currTab.isAProject()) {
-            let projectContainerNode = currTab.getProjectContainerInMainWindow()
+            let items = currTab.getAllItems()
             if (prevTab.isAProject()) {
-                GeneralRedirector.callToToggleDisplayOfProjects(prevTab.getProjectContainerInMainWindow(), projectContainerNode );
+                let prevItems = prevTab.getAllItems();
+                GeneralRedirector.callToToggleDisplayOfItems(prevItems, items );
             } else {
-                GeneralRedirector.callToDisplayOnlyProject(projectContainerNode)
+                GeneralRedirector.callToDisplayOnlyItems(items);
             }
         } else {
             // TODO: Also do for case 'Today'
             switch (currTab.getName()) {
                 case 'All':
-                    GeneralRedirector.callToDisplayAllProjects();
+                    GeneralRedirector.callToDisplayAllItems();
                     break;
                 default:
-                    GeneralRedirector.callToDisplayAllProjects();
+                    GeneralRedirector.callToDisplayAllItems();
             }
         }
     }
@@ -111,15 +114,19 @@ const Menu = (function () {
         }
     }
 
-    const clickedTab = (tabNode) => {
-        // From DOM Event Listener
-        let tabName = tabNode.getAttribute("data-tab")
+    const switchToTab = (tabName) => {
         console.log("Switching to tab: ", tabName);
         setCurrTab(tabName);
         Menu_DOM.changeTabTitle(tabName);
         // Update Appearance
         updateItemsToShow();
         updateAddItemBtnDisplay();
+    }
+
+    const clickedTab = (tabNode) => {
+        // From DOM Event Listener
+        let tabName = tabNode.getAttribute("data-tab")
+        switchToTab(tabName);
     }
 
     const projectToSaveItem = (itemObj) => {
@@ -143,8 +150,7 @@ const Menu = (function () {
                 return false;
             }
         }
-        setCurrTab('All'); /////////
-        GeneralRedirector.callToDisplayAllProjects(); /////////
+        setCurrTab('All');
     }
 
     return {INIT_ME, newProjectFormPopUp, setCurrTab, checkTabExists,

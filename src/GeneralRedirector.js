@@ -3,10 +3,6 @@ import Menu from './menu/menu.js';
 
 const GeneralRedirector = (function () {
 
-    const callToCreateProjectContainerInMainWindow = (projectName) => {
-        return MainWindow.createProjectContainer(projectName);
-    }
-
     const callToGetCurrTab = () => {
         return Menu.getCurrTabObj();
     }
@@ -15,16 +11,16 @@ const GeneralRedirector = (function () {
         return Menu.projectToSaveItem(itemObj);
     }
 
-    const callToToggleDisplayOfProjects = (projectHideNode, projectShowNode) => {
-        MainWindow.toggleDisplayOfProjects(projectHideNode, projectShowNode);
+    const callToToggleDisplayOfItems = (hideItems, showItems) => {
+        MainWindow.toggleDisplayOfItems(hideItems, showItems);
     }
 
-    const callToDisplayAllProjects = () => {
-        MainWindow.displayAllProjects();
+    const callToDisplayAllItems = () => {
+        MainWindow.displayAllItems();
     }
 
-    const callToDisplayOnlyProject = (projectNode) => {
-        MainWindow.displayOnlyProject(projectNode);
+    const callToDisplayOnlyItems = (items) => {
+        MainWindow.displayOnlyItems(items);
     }
 
     const callToHideAddBtn = () => {
@@ -36,8 +32,8 @@ const GeneralRedirector = (function () {
     }
 
     return {
-        callToCreateProjectContainerInMainWindow, callToGetCurrTab, callForProjectToSaveItem,
-        callToToggleDisplayOfProjects, callToDisplayAllProjects, callToDisplayOnlyProject,
+        callToGetCurrTab, callForProjectToSaveItem,
+        callToToggleDisplayOfItems, callToDisplayAllItems, callToDisplayOnlyItems,
         callToHideAddBtn, callToShowAddBtn
     }
 

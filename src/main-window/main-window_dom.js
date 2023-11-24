@@ -15,14 +15,6 @@ const MainWindow_DOM = (function () {
 
     addBtn.addEventListener("click", () => MainWindow.newItemFormPopUp() );
 
-    const hideProjectContainerNode = (projectNode) => {
-        projectNode.style.display = 'none';
-    }
-
-    const showProjectContainerNode = (projectNode) => {
-        projectNode.style.display = 'flex';
-    }
-
     const hideAddBtn = () => {
         addBtn.style.display = 'none';
     }
@@ -35,64 +27,49 @@ const MainWindow_DOM = (function () {
         Form.openForm();
     }
 
-    const createProjectContainerInDom = (title) => {
-        // Create: <div id="project1-items-container" style="display:flex" class="project-items-container"></div>
-        let projectDiv = document.createElement('div');
-        projectDiv.setAttribute('id', title+"-items-container");
-        projectDiv.setAttribute('class', "project-items-container");
-        showProjectContainerNode(projectDiv); 
-        allItemsContainer.appendChild(projectDiv);
-        return projectDiv;
-    }
-
-    const addItemToProject = (itemNode, containerNode) => {
-        containerNode.appendChild(itemNode);
+    const addItemToDom = (itemNode) => {
+        allItemsContainer.appendChild(itemNode);
     }
 
     // SHOW/HIDE PROJECT
 
-    const applyToProjectContainer = (projectContainerNode, show) => {
-        if (!projectContainerNode) {
-            console.log("Error: The project you're selecting doesn't exist");
-            return false;
-        }
-        show ? showProjectContainerNode(projectContainerNode) : hideProjectContainerNode(projectContainerNode);
-        for (const itemNode of projectContainerNode.children) {
+    const applyToItems = (items, show) => {
+        for (const key in items) {
+            let itemNode = items[key].getItemNode();
             show ? Item_DOM.showItem(itemNode) : Item_DOM.hideItem(itemNode);
         }
         return true;
     }
 
-    const hideProject = (projectContainerNode) => {
-        return applyToProjectContainer(projectContainerNode, false);
+    const hideItems = (items) => { 
+        return applyToItems(items, false);
     }
 
-    const showProject = (projectContainerNode) => {
-        return applyToProjectContainer(projectContainerNode, true);
+    const showItems = (items) => { 
+        return applyToItems(items, true);
     }
 
     // SHOW/HIDE ALL
 
-    const showAllProjects = () => {
-        for (const projectContainerNode of allItemsContainer.children) {
-            showProject(projectContainerNode);
+    const showAllItems = () => { 
+        for (const itemNode of allItemsContainer.children) {
+            Item_DOM.showItem(itemNode);
         }
         console.log("Now showing all items");
     }
 
-    const hideAllProjects = () => {
-        for (const projectContainerNode of allItemsContainer.children) {
-            hideProject(projectContainerNode);
+    const hideAllItems = () => { 
+        for (const itemNode of allItemsContainer.children) {
+            Item_DOM.hideItem(itemNode);
         }
         console.log("Now hiding all items");
     }
 
 
     return {
-        hideAddBtn, showAddBtn, openForm,
-        createProjectContainerInDom, addItemToProject,
-        hideProject, showProject,
-        showAllProjects, hideAllProjects
+        hideAddBtn, showAddBtn, openForm, addItemToDom,
+        hideItems, showItems,
+        showAllItems, hideAllItems
     };
 
 })();

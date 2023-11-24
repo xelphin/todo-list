@@ -7,7 +7,8 @@ import Item from '../../main-window/item/item.js';
 
 export default class Tab {
   
-    constructor(tabName, deletable, alreadyInMenu) {
+    constructor(uid, tabName, deletable, alreadyInMenu) {
+        this._id = uid;
         this._name = tabName;
         this._tabNode = Tab_DOM.createTab(tabName);
         this._deletable = deletable;
@@ -15,7 +16,7 @@ export default class Tab {
         this._projectContainerNodeInMainWindow = undefined;
         // Items
         this._myItems_obj = {}; // For lookups/direct access
-        this._myItems_arr = []; // For sorting/filtering/...
+        this._myItems_arr = []; // For sorting/filtering/... // TODO: Probs no need now
     } 
 
     getName = () => {
@@ -40,14 +41,6 @@ export default class Tab {
         return true;
     }
 
-    setProjectContainerInMainWindow = (projectContainerNode) => {
-        this._projectContainerNodeInMainWindow = projectContainerNode;
-    }
-
-    getProjectContainerInMainWindow = () => {
-        return this._projectContainerNodeInMainWindow;
-    }
-
     addItem = (itemObj) => {
         // TODO: instead of itemObj.getItemId(), use GeneralRedirector and then don't import item.js directly
         this._myItems_obj[itemObj.getItemId()] = itemObj;
@@ -57,6 +50,10 @@ export default class Tab {
 
     itemExistsInTab = (itemId) => {
         return (itemId in this._myItems_obj);
+    }
+
+    getAllItems = () => {
+        return this._myItems_obj;
     }
 
 }

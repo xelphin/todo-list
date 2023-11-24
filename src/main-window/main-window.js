@@ -10,9 +10,12 @@ import uniqid from 'uniqid';
 
 const MainWindow = (function () {
 
-    const createProjectContainer = (title) => {
-        console.log("Will create projectContainer in main window for: ", title);
-        return MainWindow_DOM.createProjectContainerInDom(title);
+    let allItems_obj = {}; // For lookups/direct access
+    let allItems_arr = []; // For sorting/filtering/...
+
+    const saveItemObj = (itemObj) => {
+        allItems_obj[itemObj.getItemId] = itemObj;
+        allItems_arr.push(itemObj);
     }
 
     const createUID = () => {
@@ -30,30 +33,27 @@ const MainWindow = (function () {
         let uid = createUID();
         let itemObj = new Item(uid, title, date, checked);
         // Add Item To DOM
-        let projectContainer = currTab.getProjectContainerInMainWindow();
-        MainWindow_DOM.addItemToProject(itemObj.getItemNode(), projectContainer);
+        MainWindow_DOM.addItemToDom(itemObj.getItemNode());
         // Give the itemObj to the Project
         GeneralRedirector.callForProjectToSaveItem(itemObj);
+        // Save it in MainWindow too
+        saveItemObj(itemObj);
 
         return undefined;
     }
 
-    const toggleDisplayOfProjects = (projectContainerHideNode, projectContainerShowNode) => {
-        if (!projectContainerHideNode || !projectContainerShowNode) {
-            console.log("Can't toggle items, you have undefined project containers");
-            return;
-        }
-        MainWindow_DOM.hideProject(projectContainerHideNode);
-        MainWindow_DOM.showProject(projectContainerShowNode);
+    const toggleDisplayOfItems = (itemsHide, itemsShow) => {
+        MainWindow_DOM.hideItems(itemsHide);
+        MainWindow_DOM.showItems(itemsShow);
     }
 
-    const displayAllProjects = () => {
-        MainWindow_DOM.showAllProjects();
+    const displayAllItems = () => {
+        MainWindow_DOM.showAllItems();
     }
 
-    const displayOnlyProject = (projectContainerNode) => {
-        MainWindow_DOM.hideAllProjects();
-        MainWindow_DOM.showProject(projectContainerNode);
+    const displayOnlyItems = (items) => {
+        MainWindow_DOM.hideAllItems();
+        MainWindow_DOM.showItems(items);
     }
     
     const hideAddBtn = () => {
@@ -92,8 +92,8 @@ const MainWindow = (function () {
     }
 
     return { 
-        createProjectContainer, AddItem, toggleDisplayOfProjects,
-        displayAllProjects, displayOnlyProject, hideAddBtn, showAddBtn, newItemFormPopUp,
+        AddItem, toggleDisplayOfItems,displayAllItems, displayOnlyItems,
+        hideAddBtn, showAddBtn, newItemFormPopUp,
         makeDateStringInputFormat, makeDateStringReadFormat, convertDateFromReadToInputFormat, convertDateFromInputToReadFormat,
         INIT_ME
     };
