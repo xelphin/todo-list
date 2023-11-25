@@ -5,9 +5,6 @@ export default class Item {
   
     constructor(uid, title, date, checked) {
         this._uid = uid;
-        this._initTitle = title;
-        this._initDate = date;
-        this._checked = checked;
         this._itemNode = Item_DOM.createItemNode(uid, title, date, checked);
     }
 
