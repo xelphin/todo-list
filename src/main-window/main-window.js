@@ -10,17 +10,12 @@ import uniqid from 'uniqid';
 
 const MainWindow = (function () {
 
-    let allItems_obj = {}; // For lookups/direct access
     let showUnchecked = true;
 
     const toggleShowUnchecked = () => {
         console.log("MainWindow, toggle 'showUnchecked' -> ", !showUnchecked);
         showUnchecked = !showUnchecked;
 
-    }
-
-    const saveItemObj = (itemObj) => {
-        allItems_obj[itemObj.getItemId] = itemObj;
     }
 
     const createUID = () => {
@@ -43,10 +38,15 @@ const MainWindow = (function () {
         MainWindow_DOM.addItemToDom(itemObj.getItemNode());
         // Give the itemObj to the Project
         GeneralRedirector.callForProjectToSaveItem(itemObj);
-        // Save it in MainWindow too
-        saveItemObj(itemObj);
 
         return undefined;
+    }
+
+    // DELETE ITEM
+
+    const deleteItem = (itemObj) => {
+        console.log("deleting item: ", itemObj.getItemId());
+        MainWindow_DOM.deleteItem(itemObj.getItemNode());
     }
 
     // ITEMS DISPLAY
@@ -119,6 +119,7 @@ const MainWindow = (function () {
         hideAddBtn, showAddBtn, newItemFormPopUp,
         makeDateStringInputFormat, makeDateStringReadFormat, convertDateFromReadToInputFormat, convertDateFromInputToReadFormat,
         updateItemsShownBecauseOfClickingChecked,
+        deleteItem,
         INIT_ME
     };
 

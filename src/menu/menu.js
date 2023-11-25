@@ -21,17 +21,45 @@ const Menu = (function () {
     let prevTab = tabs["0"];
     let currTab = tabs["0"];
 
+    // FORM
+
     const newProjectFormPopUp = () => {
         console.log("Opening form to enter new project");
         Menu_DOM.openForm();
     }
-    
-    const setCurrTab = (tabId) => {
-        if (tabs.hasOwnProperty(tabId)) {
-            prevTab = currTab;
-            currTab = tabs[tabId];
+
+    const updateAddItemBtnDisplay = () => {
+        if (currTab.isAProject()) {
+            GeneralRedirector.callToShowAddBtn();
+        } else {
+            GeneralRedirector.callToHideAddBtn();
         }
     }
+
+    // EDIT/DELETE PROJECT
+
+    const clickDeleteProject = (idOfProject) => {
+        console.log("CLICKED ON DELETE PROJECT. Will delete project: ", idOfProject);
+        let projectTabObj = tabs[idOfProject];
+        let allProjectItems = projectTabObj.getAllItems();
+        // Delete all items of tab from MainWindow (dom)
+        for (let itemId in allProjectItems) {
+            GeneralRedirector.callToDeleteItemFromDOM(allProjectItems[itemId]);
+        }
+        // Delete tab from dom
+        Menu_DOM.deleteTabFromMain(projectTabObj.getNode());
+        // Delete tab  data from menu
+        delete tabs[idOfProject];
+        // Go to Tab All
+        switchToTab("0");
+    }
+
+    const clickEditProject = (idOfProject) => {
+        // ...
+        console.log("CLICKED ON EDIT PROJECT. Will edit project: ", idOfProject);
+    }
+
+    // CHECK TAB DATA
 
     const checkTabExists = (tabId) => {
         if (tabs.hasOwnProperty(tabId)) {
@@ -49,6 +77,33 @@ const Menu = (function () {
         return true;
     }
 
+    const getCurrTabObj = () => {
+        return currTab;
+    }
+
+    const setCurrTab = (tabId) => {
+        if (tabs.hasOwnProperty(tabId)) {
+            prevTab = currTab;
+            currTab = tabs[tabId];
+        }
+    }
+
+    const projectToSaveItem = (itemObj) => {
+        if (!currTab.isAProject()) {
+            console.log("Error: Can't add item when a project is not selected.");
+            return undefined;
+        }
+        if (currTab.itemExistsInTab(itemObj.getItemId())) {
+            console.log("Error: Item has already been added.");
+            return undefined;
+        }
+        currTab.addItem(itemObj);
+        return itemObj;
+    }
+
+    // CREATE PROJECT
+
+    // Create project Tab Object
     const createProjectTab = (projectTabName) => {
         if (!checkTabNameIsFree(projectTabName)) {
             console.log("Error: tab name already exists");
@@ -63,6 +118,7 @@ const Menu = (function () {
         return tabs[uid];
     }
 
+    // Add project Tab
     const addTabToMenu = (tabId) => {
         if (!checkTabExists(tabId)) {
             console.log("Error: Need to first create the tab");
@@ -81,6 +137,7 @@ const Menu = (function () {
         return true;
     }
 
+    // Create Porject (create + add to dom)
     const createAndAddProjectTabToMenu = (projectTabName) => {
         let newProjectTab = createProjectTab(projectTabName);
         if (newProjectTab == undefined) {
@@ -95,10 +152,7 @@ const Menu = (function () {
         return true;
     }
 
-    const getCurrTabObj = () => {
-        return currTab;
-    }
-
+    // UPDATE ITEMS TO SHOW
     const updateItemsToShow = () => {
         // Updates depending on current tab
         if (currTab.isAProject()) {
@@ -121,13 +175,7 @@ const Menu = (function () {
         }
     }
 
-    const updateAddItemBtnDisplay = () => {
-        if (currTab.isAProject()) {
-            GeneralRedirector.callToShowAddBtn();
-        } else {
-            GeneralRedirector.callToHideAddBtn();
-        }
-    }
+    // TAB CLICKING/SWITCHING MECHANISM
 
     const switchToTab = (tabId) => {
         console.log("Switching to tab with id: ", tabId);
@@ -140,23 +188,14 @@ const Menu = (function () {
     }
 
     const clickedTab = (tabNode) => {
+        console.log("CLICKED ON TAB: ", tabNode);
         // From DOM Event Listener
         let tabId = tabNode.getAttribute("id");
         switchToTab(tabId);
     }
 
-    const projectToSaveItem = (itemObj) => {
-        if (!currTab.isAProject()) {
-            console.log("Error: Can't add item when a project is not selected.");
-            return undefined;
-        }
-        if (currTab.itemExistsInTab(itemObj.getItemId())) {
-            console.log("Error: Item has already been added.");
-            return undefined;
-        }
-        currTab.addItem(itemObj);
-        return itemObj;
-    }
+
+    // INIT
 
     const INIT_ME = () => {
         for (let tabId in tabs) {
@@ -171,7 +210,8 @@ const Menu = (function () {
 
     return {INIT_ME, newProjectFormPopUp, setCurrTab, checkTabExists,
             createAndAddProjectTabToMenu, getCurrTabObj, clickedTab, projectToSaveItem,
-            updateItemsToShow
+            updateItemsToShow,
+            clickDeleteProject, clickEditProject
         }
 
 })();

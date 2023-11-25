@@ -39,11 +39,16 @@ const GeneralRedirector = (function () {
         Menu.updateItemsToShow();
     }
 
+    const callToDeleteItemFromDOM = (itemObj) => {
+        MainWindow.deleteItem(itemObj);
+    }
+
     return {
         callToGetCurrTab, callForProjectToSaveItem,
         callToToggleDisplayOfItems, callToDisplayAllItems, callToDisplayOnlyItems,
         callToHideAddBtn, callToShowAddBtn,
-        callToToggleShowUnchecked, callToUpdateItemsToShow
+        callToToggleShowUnchecked, callToUpdateItemsToShow,
+        callToDeleteItemFromDOM
     }
 
 })();
