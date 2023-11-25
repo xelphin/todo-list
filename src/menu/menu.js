@@ -5,6 +5,7 @@ import Tab from './tab/tab.js';
 import Menu_DOM from './menu_dom.js';
 import GeneralRedirector from '../GeneralRedirector.js';
 import uniqid from 'uniqid';
+import ProjectForm from './form/project-form.js';
 
 const Menu = (function () {
 
@@ -20,6 +21,7 @@ const Menu = (function () {
     }
     let prevTab = tabs["0"];
     let currTab = tabs["0"];
+    let currentlyEditing = undefined;
 
     // FORM
 
@@ -48,15 +50,26 @@ const Menu = (function () {
         }
         // Delete tab from dom
         Menu_DOM.deleteTabFromMain(projectTabObj.getNode());
-        // Delete tab  data from menu
+        // Delete tab  data from menucurrentlyEditing
         delete tabs[idOfProject];
         // Go to Tab All
         switchToTab("0");
     }
 
+    const formSubmitEditProject = (newTitle) => {
+        // Edit projectTabObj data (and dom)
+        currentlyEditing.updateInfo(newTitle);
+        // Edit the MainWindow title to have the new name
+        Menu_DOM.changeTabTitle(newTitle);
+    }
+
     const clickEditProject = (idOfProject) => {
-        // ...
         console.log("CLICKED ON EDIT PROJECT. Will edit project: ", idOfProject);
+        let projectTabObj = tabs[idOfProject];
+        currentlyEditing = projectTabObj;
+        // Open form and get new data (if clicked on submit)
+        ProjectForm.changeToEditMode();
+        ProjectForm.openForm();
     }
 
     // CHECK TAB DATA
@@ -86,6 +99,7 @@ const Menu = (function () {
             prevTab = currTab;
             currTab = tabs[tabId];
         }
+        Menu_DOM.changeTabTitle(currTab.getName());
     }
 
     const projectToSaveItem = (itemObj) => {
@@ -181,7 +195,7 @@ const Menu = (function () {
         console.log("Switching to tab with id: ", tabId);
         setCurrTab(tabId);
         console.log("Now currTab: ", currTab);
-        Menu_DOM.changeTabTitle(currTab.getName());
+        
         // Update Appearance
         updateItemsToShow();
         updateAddItemBtnDisplay();
@@ -211,7 +225,7 @@ const Menu = (function () {
     return {INIT_ME, newProjectFormPopUp, setCurrTab, checkTabExists,
             createAndAddProjectTabToMenu, getCurrTabObj, clickedTab, projectToSaveItem,
             updateItemsToShow,
-            clickDeleteProject, clickEditProject
+            clickDeleteProject, clickEditProject, formSubmitEditProject
         }
 
 })();

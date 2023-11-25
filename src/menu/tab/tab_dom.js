@@ -6,16 +6,22 @@ import Menu from '../menu.js';
 const Tab_DOM = (function () {
 
     const sharedClass = "menu-tab";
+    const tabNameClass = "menu-tab-name";
 
     const addEventListenerToTab = (tabNode) => {
         tabNode.addEventListener('click', (event) => Menu.clickedTab(event.currentTarget));
+    }
+
+    const updateTabName = (tabNode, newName) => {
+        let tabNameNode = tabNode.querySelector("."+tabNameClass);
+        tabNameNode.textContent = newName;
     }
 
     const createTabName = (id, tabNameStr) => {
         let tabName = document.createElement('h4');
         tabName.textContent = tabNameStr;
         tabName.setAttribute('id', "tab-name-"+id);
-        tabName.setAttribute('class', "menu-tab-name");
+        tabName.setAttribute('class', tabNameClass);
         return tabName;
     }
 
@@ -65,7 +71,7 @@ const Tab_DOM = (function () {
         return tabNode;
     }
 
-    return { createTab, addEventListenerToTab };
+    return { createTab, addEventListenerToTab, updateTabName };
 
 })();
 

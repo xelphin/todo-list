@@ -6,12 +6,26 @@ import Menu from '../menu.js';
 
 const ProjectForm = (function () {
 
+
+    let modeCreate = true; // modeCreate = false
+
+    const changeToEditMode = () => {
+        modeCreate = false;
+    }
+
     const openForm = () => {
         ProjectForm_DOM.openForm();
     }
 
     const sendData = (title) => {
-        Menu.createAndAddProjectTabToMenu(title);
+        if (modeCreate) {
+            // Create
+            Menu.createAndAddProjectTabToMenu(title);
+        } else {
+            // Edit
+            modeCreate = true;
+            Menu.formSubmitEditProject(title);
+        }
     }
 
     const clickCancel = () => {
@@ -28,7 +42,7 @@ const ProjectForm = (function () {
         // User Cancelled
     }
 
-    return {openForm, sendData, clickCancel, clickClose}
+    return {openForm, sendData, clickCancel, clickClose, changeToEditMode}
 
 })();
 

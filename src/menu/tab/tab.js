@@ -44,6 +44,11 @@ export default class Tab {
         return true;
     }
 
+    updateInfo = (newName) => {
+        this._name = newName;
+        Tab_DOM.updateTabName(this._tabNode , newName);
+    }
+
     addItem = (itemObj) => {
         this._myItems_obj[itemObj.getItemId()] = itemObj;
         this._myItems_arr.push(itemObj);
