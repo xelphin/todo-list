@@ -20,6 +20,10 @@ export default class Item {
         return Item_DOM.fromNodeGetIfChecked(this._itemNode);
     }
 
+    updateInfo(title, date, checked) {
+        Item_DOM.updateItemInfo(this._itemNode, title, date, checked);
+    }
+
     static fromNodeGetIfChecked(someItemNode) {
         return Item_DOM.isItemNodeChecked(someItemNode);
     }

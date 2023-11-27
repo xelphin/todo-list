@@ -7,7 +7,7 @@ import Menu from '../menu.js';
 const ProjectForm = (function () {
 
 
-    let modeCreate = true; // modeCreate = false
+    let modeCreate = true; // modeEdit -> false
 
     const changeToEditMode = () => {
         modeCreate = false;
@@ -26,11 +26,13 @@ const ProjectForm = (function () {
             modeCreate = true;
             Menu.formSubmitEditProject(title);
         }
+        modeCreate = true;
     }
 
     const clickCancel = () => {
         // User Cancelled
         ProjectForm_DOM.cancelForm();
+        modeCreate = true;
     }
 
     const clickClose = (event) => {
@@ -40,6 +42,7 @@ const ProjectForm = (function () {
             sendData(title);
         }
         // User Cancelled
+        modeCreate = true;
     }
 
     return {openForm, sendData, clickCancel, clickClose, changeToEditMode}

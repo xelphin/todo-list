@@ -48,6 +48,13 @@ export default class Tab {
         Tab_DOM.updateTabName(this._tabNode , newName);
     }
 
+    updateItemInfo = (id, newTitle, newDate, newChecked) => {
+        if (!this.checkHasItem) {
+            return false;
+        }
+        this._myItems_obj[id].updateInfo(newTitle, newDate, newChecked);
+    }
+
     addItem = (itemObj) => {
         this._myItems_obj[itemObj.getItemId()] = itemObj;
         return true;

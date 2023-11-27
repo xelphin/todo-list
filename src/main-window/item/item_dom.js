@@ -7,6 +7,10 @@ import GeneralRedirector from '../../GeneralRedirector.js';
 
 const Item_DOM = (function () {
 
+    const itemTitleClassName = "item-title";
+    const itemDateClassName = "item-date";
+    const itemCheckBoxClassName = "item-checkbox";
+
     const isItemNodeChecked = (itemNode) => {
         const checkBox = itemNode.querySelector('.item-checkbox');
         if (checkBox == undefined || checkBox.checked == false) {
@@ -23,12 +27,21 @@ const Item_DOM = (function () {
         itemNode.style.display = 'grid';
     }
 
+    const updateItemInfo = (itemNode, newTitle, newDate, newChecked) => {
+        let itemTitleNode = itemNode.querySelector("."+itemTitleClassName);
+        let itemDateNode = itemNode.querySelector("."+itemDateClassName);
+        let itemCheckNode = itemNode.querySelector("."+itemCheckBoxClassName);
+        itemTitleNode.textContent = newTitle;
+        itemDateNode.textContent = MainWindow.convertDateFromInputToReadFormat(newDate);
+        itemCheckNode.checked = newChecked;
+    }
+
     const createItemCheckBoxNode = (checked) => {
         // <input name="item-checkbox" type="checkbox" class="item-checkbox">
         let checkBoxNode = document.createElement('input');
         checkBoxNode.setAttribute('name', "item-checkbox");
         checkBoxNode.setAttribute('type', "checkbox");
-        checkBoxNode.setAttribute('class', "item-checkbox");
+        checkBoxNode.setAttribute('class', itemCheckBoxClassName);
         checkBoxNode.checked = checked;
         checkBoxNode.addEventListener('click', () => MainWindow.updateItemsShownBecauseOfClickingChecked());
         return checkBoxNode;
@@ -37,14 +50,14 @@ const Item_DOM = (function () {
     const createItemTitleNode = (title) => {
         // <h3 class="item-title">demo item title</h3>
         let titleNode = document.createElement('h3');
-        titleNode.setAttribute('class', "item-title");
+        titleNode.setAttribute('class', itemTitleClassName);
         titleNode.textContent = title;
         return titleNode;
     }
 
     const createItemDateNode = (date) => {
         // <div class="item-date-container">
-        //     <h4>12/12/2024</h4>
+        //     <h4 class="item-date">12/12/2024</h4>
         // </div>
         // Container
         let dateNode = document.createElement('div');
@@ -52,6 +65,7 @@ const Item_DOM = (function () {
         // Text
         let dateTextNode = document.createElement('h4');
         dateTextNode.textContent = MainWindow.convertDateFromInputToReadFormat(date);
+        dateTextNode.setAttribute('class', itemDateClassName);
         // Append and send
         dateNode.appendChild(dateTextNode);
         return dateNode;
@@ -87,7 +101,7 @@ const Item_DOM = (function () {
             <input name="item-checkbox" type="checkbox" class="item-checkbox">
             <h3 class="item-title">demo item title</h3>
             <div class="item-date-container">
-                <h4>12/12/2024</h4>
+                <h4 class="item-date">12/12/2024</h4>
             </div>
             <img id="tab-edit-<id>" src=<EditIcon> alt="edit">
             <img id="tab-bin-<id>" src=<BinIcon> alt="bin">
@@ -108,7 +122,7 @@ const Item_DOM = (function () {
         return itemNode;
     }
 
-    return { isItemNodeChecked, createItemNode, hideItem, showItem };
+    return { isItemNodeChecked, createItemNode, hideItem, showItem, updateItemInfo };
 
 })();
 

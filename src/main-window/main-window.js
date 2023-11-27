@@ -11,11 +11,12 @@ import uniqid from 'uniqid';
 const MainWindow = (function () {
 
     let showUnchecked = true;
+    let currentlyEditing = undefined;
+    let currentlyEditingFromProject = undefined;
 
     const toggleShowUnchecked = () => {
         console.log("MainWindow, toggle 'showUnchecked' -> ", !showUnchecked);
         showUnchecked = !showUnchecked;
-
     }
 
     const createUID = () => {
@@ -109,8 +110,18 @@ const MainWindow = (function () {
         GeneralRedirector.callToUpdateItemsToShow();
     }
 
-    const clickEditItem = (itemId) => {
+    const formSubmitEditItem = (newTitle, newDate, newChecked) => {
+        // Edit Project's data + it will update the Item Node (that is reflected on the dom)
+        currentlyEditingFromProject.updateItemInfo(currentlyEditing.getItemId(), newTitle, newDate, newChecked);
+    }
+
+    const clickEditItem = (itemId, projectId) => {
         console.log("CLICKED ON EDIT ITEM. Will edit item: ", itemId);
+        let itemObj = GeneralRedirector.callToGetItemObjFromProject(projectId, itemId);
+        currentlyEditing = itemObj;
+        currentlyEditingFromProject = GeneralRedirector.callToGetCurrTab();
+        Form.changeToEditMode();
+        Form.openForm();
     }
 
     const clickDeleteItem = (itemId, projectId) => {
@@ -132,7 +143,7 @@ const MainWindow = (function () {
         hideAddBtn, showAddBtn, newItemFormPopUp,
         makeDateStringInputFormat, makeDateStringReadFormat, convertDateFromReadToInputFormat, convertDateFromInputToReadFormat,
         updateItemsShownBecauseOfClickingChecked,
-        deleteItem, clickEditItem, clickDeleteItem,
+        deleteItem, clickEditItem, clickDeleteItem, formSubmitEditItem,
         INIT_ME
     };
 
