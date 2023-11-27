@@ -15,7 +15,6 @@ export default class Tab {
         this._projectContainerNodeInMainWindow = undefined;
         // Items
         this._myItems_obj = {}; // For lookups/direct access
-        this._myItems_arr = []; // For sorting/filtering/... // TODO: Probs no need now
     } 
 
     getName = () => {
@@ -51,8 +50,26 @@ export default class Tab {
 
     addItem = (itemObj) => {
         this._myItems_obj[itemObj.getItemId()] = itemObj;
-        this._myItems_arr.push(itemObj);
         return true;
+    }
+
+    deleteItem = (itemId) => {
+        delete this._myItems_obj[itemId];
+        return true;
+    }
+
+    checkHasItem = (itemId) => {
+        if (this._myItems_obj.hasOwnProperty(itemId)) {
+            return true;
+        }
+        return false;
+    }
+
+    getItemObj = (itemId) => {
+        if (!this.checkHasItem) {
+            return undefined;
+        }
+        return this._myItems_obj[itemId];
     }
 
     itemExistsInTab = (itemId) => {

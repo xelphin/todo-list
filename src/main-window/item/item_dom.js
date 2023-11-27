@@ -57,29 +57,54 @@ const Item_DOM = (function () {
         return dateNode;
     }
 
-    const createItemNode = (uid, title, date, checked) => {
-        // <div id="item-1234567890" class="item-container">
-        //     <input name="item-checkbox" type="checkbox" class="item-checkbox">
-        //     <h3 class="item-title">demo item title</h3>
-        //     <div class="item-date-container">
-        //         <h4>12/12/2024</h4>
-        //     </div>
-        // </div>
+    const createItemEdit = (id, projectId) => {
+        let itemEdit = document.createElement('img');
+        itemEdit.src = "./icons/icon_edit.svg";
+        itemEdit.setAttribute('id', "item-edit-"+id);
+        itemEdit.setAttribute('class', "item-edit");
+        itemEdit.addEventListener('click', function(event) {
+            event.stopPropagation();
+            MainWindow.clickEditItem(id, projectId);
+        });
+        return itemEdit;
+    }
+
+    const createItemBin = (id, projectId) => {
+        let itemBin = document.createElement('img');
+        itemBin.src = "./icons/icon_bin.svg";
+        itemBin.setAttribute('id', "item-bin-"+id);
+        itemBin.setAttribute('class', "item-bin");
+        itemBin.addEventListener('click', function(event) {
+            event.stopPropagation();
+            MainWindow.clickDeleteItem(id, projectId);
+        });
+        return itemBin;
+    }
+
+    const createItemNode = (uid, projectUId, title, date, checked) => {
+        /*
+        <div id="item-<projectId>-<itemId>" class="item-container">
+            <input name="item-checkbox" type="checkbox" class="item-checkbox">
+            <h3 class="item-title">demo item title</h3>
+            <div class="item-date-container">
+                <h4>12/12/2024</h4>
+            </div>
+            <img id="tab-edit-<id>" src=<EditIcon> alt="edit">
+            <img id="tab-bin-<id>" src=<BinIcon> alt="bin">
+        </div>
+        */
         console.log("Creating item: ", title);
         // Item container
         let itemNode = document.createElement('div');
-        itemNode.setAttribute('id', "item-"+uid);
+        itemNode.setAttribute('id', "item-"+projectUId+"-"+uid);
         itemNode.setAttribute('class', "item-container");
         showItem(itemNode);
-        // TODO: Add event listener
-        // Inner elements
-        let checkBoxNode = createItemCheckBoxNode(checked);
-        let titleNode = createItemTitleNode(title);
-        let dateNode = createItemDateNode(date);
         // Append
-        itemNode.appendChild(checkBoxNode);
-        itemNode.appendChild(titleNode);
-        itemNode.appendChild(dateNode);
+        itemNode.appendChild(createItemCheckBoxNode(checked));
+        itemNode.appendChild(createItemTitleNode(title));
+        itemNode.appendChild(createItemDateNode(date));
+        itemNode.appendChild(createItemEdit(uid, projectUId));
+        itemNode.appendChild(createItemBin(uid, projectUId));
         return itemNode;
     }
 

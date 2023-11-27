@@ -27,13 +27,14 @@ const MainWindow = (function () {
     
     const AddItem = (title, date, checked) => {
         let currTab = GeneralRedirector.callToGetCurrTab();
+        const projectUId = currTab.getId();
         if (!currTab.isAProject()) {
             console.log("Error: Can't add item when a project is not selected.");
             return undefined;
         }
         // Create Item Object
-        let uid = createUID();
-        let itemObj = new Item(uid, title, date, checked);
+        const uid = createUID();
+        let itemObj = new Item(uid,projectUId, title, date, checked);
         // Add Item To DOM
         MainWindow_DOM.addItemToDom(itemObj.getItemNode());
         // Give the itemObj to the Project
@@ -108,6 +109,18 @@ const MainWindow = (function () {
         GeneralRedirector.callToUpdateItemsToShow();
     }
 
+    const clickEditItem = (itemId) => {
+        console.log("CLICKED ON EDIT ITEM. Will edit item: ", itemId);
+    }
+
+    const clickDeleteItem = (itemId, projectId) => {
+        console.log("CLICKED ON DELETE ITEM. Will delete item: ", itemId, " from project: ", projectId);
+        let itemObj = GeneralRedirector.callToGetItemObjFromProject(projectId, itemId);
+        console.log("node to delete is: ", itemObj.getItemNode());
+        deleteItem(itemObj); // Delete from MainWindow (Dom)
+        GeneralRedirector.callToDeleteItemObjFromProject(projectId, itemId); // Delete from Project Data
+    }
+
     // INIT
 
     const INIT_ME = () => {
@@ -119,7 +132,7 @@ const MainWindow = (function () {
         hideAddBtn, showAddBtn, newItemFormPopUp,
         makeDateStringInputFormat, makeDateStringReadFormat, convertDateFromReadToInputFormat, convertDateFromInputToReadFormat,
         updateItemsShownBecauseOfClickingChecked,
-        deleteItem,
+        deleteItem, clickEditItem, clickDeleteItem,
         INIT_ME
     };
 

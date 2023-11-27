@@ -43,12 +43,20 @@ const GeneralRedirector = (function () {
         MainWindow.deleteItem(itemObj);
     }
 
+    const callToGetItemObjFromProject = (projectId, itemId) => {
+        return Menu.getItemObjFromProject(projectId, itemId);
+    }
+
+    const callToDeleteItemObjFromProject = (projectId, itemId) => {
+        Menu.deleteItemObjFromProject(projectId, itemId);
+    }
+
     return {
         callToGetCurrTab, callForProjectToSaveItem,
         callToToggleDisplayOfItems, callToDisplayAllItems, callToDisplayOnlyItems,
         callToHideAddBtn, callToShowAddBtn,
         callToToggleShowUnchecked, callToUpdateItemsToShow,
-        callToDeleteItemFromDOM
+        callToDeleteItemFromDOM, callToGetItemObjFromProject, callToDeleteItemObjFromProject
     }
 
 })();

@@ -3,9 +3,9 @@
 
 .item-container {
     display: grid;
-    grid-template: 1fr / 1fr 8fr 1fr; 
+    grid-template: 1fr / 3fr 10fr 3fr 1fr 1fr; 
     grid-template-areas:
-      "checkbox title date";
+      "checkbox title date edit bin";
     padding: 10px 0;
     border-radius: 3%;
     transition: 0.1s ease-out transform, 0.1s ease-out box-shadow;
@@ -17,9 +17,23 @@
     }
     .item-title {
         grid-area: title;
+        display: flex;
+        align-items: center;
     }
     .item-date-container {
         grid-area: date;
+        display: flex;
+        align-items: center;
+    }
+
+    .item-edit {
+        grid-area: edit;
+        filter: $color2-type2-filter;
+    }
+
+    .item-bin {
+        grid-area: bin;
+        filter: $color2-type2-filter;
     }
 }
 

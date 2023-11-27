@@ -115,6 +115,22 @@ const Menu = (function () {
         return itemObj;
     }
 
+    // ITEM FUNCTIONS
+
+    const getItemObjFromProject = (projectId, itemId) => {
+        if (!checkTabExists(projectId)) {
+            return undefined;
+        }
+        return tabs[projectId].getItemObj(itemId);
+    }
+
+    const deleteItemObjFromProject = (projectId, itemId) => {
+        if (!checkTabExists(projectId)) {
+            return undefined;
+        }
+        tabs[projectId].deleteItem(itemId);
+    }
+
     // CREATE PROJECT
 
     // Create project Tab Object
@@ -224,6 +240,7 @@ const Menu = (function () {
 
     return {INIT_ME, newProjectFormPopUp, setCurrTab, checkTabExists,
             createAndAddProjectTabToMenu, getCurrTabObj, clickedTab, projectToSaveItem,
+            getItemObjFromProject, deleteItemObjFromProject,
             updateItemsToShow,
             clickDeleteProject, clickEditProject, formSubmitEditProject
         }
