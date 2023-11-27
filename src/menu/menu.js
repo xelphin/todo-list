@@ -5,6 +5,7 @@ import Tab from './tab/tab.js';
 import Menu_DOM from './menu_dom.js';
 import GeneralRedirector from '../GeneralRedirector.js';
 import uniqid from 'uniqid';
+import ProjectForm from './form/project-form.js';
 
 const Menu = (function () {
 
@@ -20,18 +21,58 @@ const Menu = (function () {
     }
     let prevTab = tabs["0"];
     let currTab = tabs["0"];
+    let currentlyEditing = undefined;
+
+    // FORM
 
     const newProjectFormPopUp = () => {
         console.log("Opening form to enter new project");
         Menu_DOM.openForm();
     }
-    
-    const setCurrTab = (tabId) => {
-        if (tabs.hasOwnProperty(tabId)) {
-            prevTab = currTab;
-            currTab = tabs[tabId];
+
+    const updateAddItemBtnDisplay = () => {
+        if (currTab.isAProject()) {
+            GeneralRedirector.callToShowAddBtn();
+        } else {
+            GeneralRedirector.callToHideAddBtn();
         }
     }
+
+    // EDIT/DELETE PROJECT
+
+    const clickDeleteProject = (idOfProject) => {
+        console.log("CLICKED ON DELETE PROJECT. Will delete project: ", idOfProject);
+        let projectTabObj = tabs[idOfProject];
+        let allProjectItems = projectTabObj.getAllItems();
+        // Delete all items of tab from MainWindow (dom)
+        for (let itemId in allProjectItems) {
+            GeneralRedirector.callToDeleteItemFromDOM(allProjectItems[itemId]);
+        }
+        // Delete tab from dom
+        Menu_DOM.deleteTabFromMain(projectTabObj.getNode());
+        // Delete tab  data from menucurrentlyEditing
+        delete tabs[idOfProject];
+        // Go to Tab All
+        switchToTab("0");
+    }
+
+    const formSubmitEditProject = (newTitle) => {
+        // Edit projectTabObj data (and dom)
+        currentlyEditing.updateInfo(newTitle);
+        // Edit the MainWindow title to have the new name
+        Menu_DOM.changeTabTitle(newTitle);
+    }
+
+    const clickEditProject = (idOfProject) => {
+        console.log("CLICKED ON EDIT PROJECT. Will edit project: ", idOfProject);
+        let projectTabObj = tabs[idOfProject];
+        currentlyEditing = projectTabObj;
+        // Open form and get new data (if clicked on submit)
+        ProjectForm.changeToEditMode();
+        ProjectForm.openForm();
+    }
+
+    // CHECK TAB DATA
 
     const checkTabExists = (tabId) => {
         if (tabs.hasOwnProperty(tabId)) {
@@ -49,6 +90,50 @@ const Menu = (function () {
         return true;
     }
 
+    const getCurrTabObj = () => {
+        return currTab;
+    }
+
+    const setCurrTab = (tabId) => {
+        if (tabs.hasOwnProperty(tabId)) {
+            prevTab = currTab;
+            currTab = tabs[tabId];
+        }
+        Menu_DOM.changeTabTitle(currTab.getName());
+    }
+
+    const projectToSaveItem = (itemObj) => {
+        if (!currTab.isAProject()) {
+            console.log("Error: Can't add item when a project is not selected.");
+            return undefined;
+        }
+        if (currTab.itemExistsInTab(itemObj.getItemId())) {
+            console.log("Error: Item has already been added.");
+            return undefined;
+        }
+        currTab.addItem(itemObj);
+        return itemObj;
+    }
+
+    // ITEM FUNCTIONS
+
+    const getItemObjFromProject = (projectId, itemId) => {
+        if (!checkTabExists(projectId)) {
+            return undefined;
+        }
+        return tabs[projectId].getItemObj(itemId);
+    }
+
+    const deleteItemObjFromProject = (projectId, itemId) => {
+        if (!checkTabExists(projectId)) {
+            return undefined;
+        }
+        tabs[projectId].deleteItem(itemId);
+    }
+
+    // CREATE PROJECT
+
+    // Create project Tab Object
     const createProjectTab = (projectTabName) => {
         if (!checkTabNameIsFree(projectTabName)) {
             console.log("Error: tab name already exists");
@@ -63,6 +148,7 @@ const Menu = (function () {
         return tabs[uid];
     }
 
+    // Add project Tab
     const addTabToMenu = (tabId) => {
         if (!checkTabExists(tabId)) {
             console.log("Error: Need to first create the tab");
@@ -81,6 +167,7 @@ const Menu = (function () {
         return true;
     }
 
+    // Create Porject (create + add to dom)
     const createAndAddProjectTabToMenu = (projectTabName) => {
         let newProjectTab = createProjectTab(projectTabName);
         if (newProjectTab == undefined) {
@@ -95,10 +182,7 @@ const Menu = (function () {
         return true;
     }
 
-    const getCurrTabObj = () => {
-        return currTab;
-    }
-
+    // UPDATE ITEMS TO SHOW
     const updateItemsToShow = () => {
         // Updates depending on current tab
         if (currTab.isAProject()) {
@@ -121,42 +205,27 @@ const Menu = (function () {
         }
     }
 
-    const updateAddItemBtnDisplay = () => {
-        if (currTab.isAProject()) {
-            GeneralRedirector.callToShowAddBtn();
-        } else {
-            GeneralRedirector.callToHideAddBtn();
-        }
-    }
+    // TAB CLICKING/SWITCHING MECHANISM
 
     const switchToTab = (tabId) => {
         console.log("Switching to tab with id: ", tabId);
         setCurrTab(tabId);
         console.log("Now currTab: ", currTab);
-        Menu_DOM.changeTabTitle(currTab.getName());
+        
         // Update Appearance
         updateItemsToShow();
         updateAddItemBtnDisplay();
     }
 
     const clickedTab = (tabNode) => {
+        console.log("CLICKED ON TAB: ", tabNode);
         // From DOM Event Listener
         let tabId = tabNode.getAttribute("id");
         switchToTab(tabId);
     }
 
-    const projectToSaveItem = (itemObj) => {
-        if (!currTab.isAProject()) {
-            console.log("Error: Can't add item when a project is not selected.");
-            return undefined;
-        }
-        if (currTab.itemExistsInTab(itemObj.getItemId())) {
-            console.log("Error: Item has already been added.");
-            return undefined;
-        }
-        currTab.addItem(itemObj);
-        return itemObj;
-    }
+
+    // INIT
 
     const INIT_ME = () => {
         for (let tabId in tabs) {
@@ -171,7 +240,9 @@ const Menu = (function () {
 
     return {INIT_ME, newProjectFormPopUp, setCurrTab, checkTabExists,
             createAndAddProjectTabToMenu, getCurrTabObj, clickedTab, projectToSaveItem,
-            updateItemsToShow
+            getItemObjFromProject, deleteItemObjFromProject,
+            updateItemsToShow,
+            clickDeleteProject, clickEditProject, formSubmitEditProject
         }
 
 })();

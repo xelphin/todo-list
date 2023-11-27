@@ -7,18 +7,32 @@ import GeneralRedirector from '../../GeneralRedirector.js';
 
 const Form = (function () {
 
+    let modeCreate = true; // modeEdit -> false
+
+    const changeToEditMode = () => {
+        modeCreate = false;
+    }
+
     const openForm = () => {
         Form_DOM.openForm();
     }
 
     const sendData = (title, date, checked) => {
-        MainWindow.AddItem(title, date, checked);
+        if (modeCreate) {
+            MainWindow.AddItem(title, date, checked);
+        } else {
+            // Edit
+            modeCreate = true;
+            MainWindow.formSubmitEditItem(title, date, checked);
+        }
         GeneralRedirector.callToUpdateItemsToShow();
+        modeCreate = true;
     }
 
     const clickCancel = () => {
         // User Cancelled
         Form_DOM.cancelForm();
+        modeCreate = true;
     }
 
     const clickClose = (event) => {
@@ -30,6 +44,7 @@ const Form = (function () {
             sendData(title, date, checked);
         }
         // User Cancelled
+        modeCreate = true;
     }
 
     const setDefaultDates = () => {
@@ -38,7 +53,7 @@ const Form = (function () {
         Form_DOM.setCurrDateAsDefault();
     }
 
-    return {openForm, sendData, clickCancel, clickClose, setDefaultDates}
+    return {openForm, sendData, clickCancel, clickClose, setDefaultDates, changeToEditMode}
 
 })();
 

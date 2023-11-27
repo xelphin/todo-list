@@ -1,0 +1,25 @@
+@import '../../general';
+@import '../../layout';
+
+#projects-tab-container {
+    .menu-tab {
+        display: grid;
+        grid-template: 1fr / 5fr 1fr 1fr; 
+        grid-template-areas:
+          "name edit bin";
+
+        .menu-tab-name {
+            grid-area: name;
+        }
+
+        .menu-tab-edit {
+            filter: $color2-type2-filter;
+            grid-area: edit;
+        }
+
+        .menu-tab-bin {
+            filter: $color2-type2-filter;
+            grid-area: bin;
+        }
+    }
+}

@@ -73,11 +73,18 @@ const MainWindow_DOM = (function () {
         console.log("Now hiding all items");
     }
 
+    // DELETE ITEM from dom
+
+    const deleteItem = (itemNode) => {
+        itemNode.remove();
+    }
+
 
     return {
         hideAddBtn, showAddBtn, openForm, addItemToDom,
         hideItems, showItems,
-        showAllItems, hideAllItems
+        showAllItems, hideAllItems,
+        deleteItem
     };
 
 })();

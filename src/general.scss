@@ -8,13 +8,17 @@
 
 /* Colors */
 $color1-type1: #2b2c2a;
+$color1-type1-filter: invert(17%) sepia(0%) saturate(0%) hue-rotate(207deg) brightness(95%) contrast(98%); 
 $color1-type1-2: #383936;
 $color1-type2: #1b1c1b;
+$color1-type2-filter: invert(10%) sepia(2%) saturate(3%) hue-rotate(156deg) brightness(96%) contrast(98%);
 $color1-type2-2: #232323;
 $color1-type3: #141514;
 $color2-type1:rgb(208, 244, 195);
+$color2-type1-filter: invert(96%) sepia(7%) saturate(1310%) hue-rotate(44deg) brightness(92%) contrast(100%);
 $color2-type1-2:rgb(194, 235, 179);
 $color2-type2: rgb(119, 200, 94);
+$color2-type2-filter: invert(74%) sepia(40%) saturate(541%) hue-rotate(59deg) brightness(88%) contrast(91%);
 $color2-type2-2: rgb(131, 212, 106);
 $color2-type3: rgb(87, 138, 72);
 

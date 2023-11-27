@@ -10,17 +10,13 @@ import uniqid from 'uniqid';
 
 const MainWindow = (function () {
 
-    let allItems_obj = {}; // For lookups/direct access
     let showUnchecked = true;
+    let currentlyEditing = undefined;
+    let currentlyEditingFromProject = undefined;
 
     const toggleShowUnchecked = () => {
         console.log("MainWindow, toggle 'showUnchecked' -> ", !showUnchecked);
         showUnchecked = !showUnchecked;
-
-    }
-
-    const saveItemObj = (itemObj) => {
-        allItems_obj[itemObj.getItemId] = itemObj;
     }
 
     const createUID = () => {
@@ -32,21 +28,27 @@ const MainWindow = (function () {
     
     const AddItem = (title, date, checked) => {
         let currTab = GeneralRedirector.callToGetCurrTab();
+        const projectUId = currTab.getId();
         if (!currTab.isAProject()) {
             console.log("Error: Can't add item when a project is not selected.");
             return undefined;
         }
         // Create Item Object
-        let uid = createUID();
-        let itemObj = new Item(uid, title, date, checked);
+        const uid = createUID();
+        let itemObj = new Item(uid,projectUId, title, date, checked);
         // Add Item To DOM
         MainWindow_DOM.addItemToDom(itemObj.getItemNode());
         // Give the itemObj to the Project
         GeneralRedirector.callForProjectToSaveItem(itemObj);
-        // Save it in MainWindow too
-        saveItemObj(itemObj);
 
         return undefined;
+    }
+
+    // DELETE ITEM
+
+    const deleteItem = (itemObj) => {
+        console.log("deleting item: ", itemObj.getItemId());
+        MainWindow_DOM.deleteItem(itemObj.getItemNode());
     }
 
     // ITEMS DISPLAY
@@ -108,6 +110,28 @@ const MainWindow = (function () {
         GeneralRedirector.callToUpdateItemsToShow();
     }
 
+    const formSubmitEditItem = (newTitle, newDate, newChecked) => {
+        // Edit Project's data + it will update the Item Node (that is reflected on the dom)
+        currentlyEditingFromProject.updateItemInfo(currentlyEditing.getItemId(), newTitle, newDate, newChecked);
+    }
+
+    const clickEditItem = (itemId, projectId) => {
+        console.log("CLICKED ON EDIT ITEM. Will edit item: ", itemId);
+        let itemObj = GeneralRedirector.callToGetItemObjFromProject(projectId, itemId);
+        currentlyEditing = itemObj;
+        currentlyEditingFromProject = GeneralRedirector.callToGetCurrTab();
+        Form.changeToEditMode();
+        Form.openForm();
+    }
+
+    const clickDeleteItem = (itemId, projectId) => {
+        console.log("CLICKED ON DELETE ITEM. Will delete item: ", itemId, " from project: ", projectId);
+        let itemObj = GeneralRedirector.callToGetItemObjFromProject(projectId, itemId);
+        console.log("node to delete is: ", itemObj.getItemNode());
+        deleteItem(itemObj); // Delete from MainWindow (Dom)
+        GeneralRedirector.callToDeleteItemObjFromProject(projectId, itemId); // Delete from Project Data
+    }
+
     // INIT
 
     const INIT_ME = () => {
@@ -119,6 +143,7 @@ const MainWindow = (function () {
         hideAddBtn, showAddBtn, newItemFormPopUp,
         makeDateStringInputFormat, makeDateStringReadFormat, convertDateFromReadToInputFormat, convertDateFromInputToReadFormat,
         updateItemsShownBecauseOfClickingChecked,
+        deleteItem, clickEditItem, clickDeleteItem, formSubmitEditItem,
         INIT_ME
     };
 

@@ -3,9 +3,9 @@ import Item_DOM from './item_dom.js'
 
 export default class Item {
   
-    constructor(uid, title, date, checked) {
+    constructor(uid, projectUId, title, date, checked) {
         this._uid = uid;
-        this._itemNode = Item_DOM.createItemNode(uid, title, date, checked);
+        this._itemNode = Item_DOM.createItemNode(uid,projectUId, title, date, checked);
     }
 
     getItemNode() {
@@ -18,6 +18,10 @@ export default class Item {
 
     getChecked() {
         return Item_DOM.fromNodeGetIfChecked(this._itemNode);
+    }
+
+    updateInfo(title, date, checked) {
+        Item_DOM.updateItemInfo(this._itemNode, title, date, checked);
     }
 
     static fromNodeGetIfChecked(someItemNode) {

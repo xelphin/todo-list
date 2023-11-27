@@ -14,6 +14,7 @@ const Menu_DOM = (function () {
     addBtn.addEventListener("click", () => Menu.newProjectFormPopUp() );
 
     const changeTabTitle = (newTitle) => {
+        console.log("New title given is: ", newTitle);
         tabTitle.textContent = newTitle;
     }
 
@@ -25,11 +26,15 @@ const Menu_DOM = (function () {
         mainContainer.appendChild(tabNode);
     }
 
+    const deleteTabFromMain = (tabNode) => {
+        tabNode.remove();
+    }
+
     const addTabToProjects = (tabNode) => {
         projectsContainer.appendChild(tabNode);
     }
 
-    return {changeTabTitle, openForm, addTabToMain, addTabToProjects}
+    return {changeTabTitle, openForm, addTabToMain, addTabToProjects, deleteTabFromMain}
 
 
 })();
